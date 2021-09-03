@@ -134,97 +134,75 @@ public class CollectionDefensor {
   }
 
   public static <E> boolean add(List<E> list, E e) {
-    if (list == null) {
-      String error = "List.add(e) throw NullPointerException";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return false;
-    }
     try {
       return list.add(e);
     } catch (UnsupportedOperationException ex) {
       CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.add(e) throw UnsupportedOperationException due to " + ex.getMessage(), ex);
-      return false;
     } catch (ClassCastException ex) {
       CrashDefensor.onCrash(ErrorCode.ClassCastException, "List.add(e) throw ClassCastException due to " + ex.getMessage(), ex);
-      return false;
     } catch (NullPointerException ex) {
-      String error = "List.add(e) throw NullPointerException, due to the specified element is null and this list does not permit null elements.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error + ex.getMessage(), ex);
-      return false;
+      String error = "List.add(e) throw NullPointerException, due to " +
+          (list == null ? "this list is null." : "the specified element is null and this list does not permit null elements.");
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, ex);
     } catch (IllegalArgumentException ex) {
       CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "List.add(e) throw IllegalArgumentException due to " + ex.getMessage(), ex);
-      return false;
     }
+    return false;
   }
 
   public static <E> void add(List<E> list, int index, E e) {
-    if (list != null && index >= 0 && index < list.size()) {
-      try {
-        list.add(index, e);
-      } catch (UnsupportedOperationException ex) {
-        CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.add(index, element) throw UnsupportedOperationException", ex);
-      } catch (ClassCastException ex) {
-        CrashDefensor.onCrash(ErrorCode.ClassCastException, "List.add(index, element) throw ClassCastException", ex);
-      } catch (NullPointerException ex) {
-        String error = "List.add(index, element) throw NullPointerException, due to the specified element is null and this list does not permit null elements.";
-        CrashDefensor.onCrash(ErrorCode.NullPointerException, error, ex);
-      } catch (IllegalArgumentException ex) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "List.add(index, element) throw IllegalArgumentException", ex);
-      }
+    try {
+      list.add(index, e);
+    } catch (UnsupportedOperationException ex) {
+      CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.add(index, element) throw UnsupportedOperationException", ex);
+    } catch (ClassCastException ex) {
+      CrashDefensor.onCrash(ErrorCode.ClassCastException, "List.add(index, element) throw ClassCastException", ex);
+    } catch (NullPointerException ex) {
+      String error = "List.add(index, element) throw NullPointerException, due to " +
+          (list == null ? "this list is null." : "the specified element is null and this list does not permit null elements.");
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error + ex.getMessage(), ex);
+    } catch (IllegalArgumentException ex) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "List.add(index, element) throw IllegalArgumentException", ex);
+    } catch (IndexOutOfBoundsException ex) {
+      CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, "List.add(index, element) throw IndexOutOfBoundsException", ex);
     }
-    if (list == null) {
-      String error = "List.add(index, element) throw NullPointerException";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return;
-    }
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, "List.add(index, element) throw IndexOutOfBoundsException", new IndexOutOfBoundsException("List.add(" + index + ", element) size " + list.size() + " throw IndexOutOfBoundsException"));
   }
 
   public static <E> E remove(List<E> list, int index) {
-    if (list != null && index >= 0 && index < list.size()) {
-      try {
-        return list.remove(index);
-      } catch (UnsupportedOperationException e) {
-        CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.remove(index) throw UnsupportedOperationException", e);
-        return null;
-      }
-    }
     if (list == null) {
       String error = "List.remove(index) throw NullPointerException";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return null;
     }
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, "List.remove(index) throw IndexOutOfBoundsException", new IndexOutOfBoundsException("List.remove(" + index + ") size " + list.size() + " throw IndexOutOfBoundsException"));
+    if (index < 0 || index >= list.size()) {
+      String error = "List.remove(index) throw IndexOutOfBoundsException";
+      CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, error, new IndexOutOfBoundsException("List.remove(" + index + ") size " + list.size() + " throw IndexOutOfBoundsException"));
+      return null;
+    }
+    try {
+      return list.remove(index);
+    } catch (UnsupportedOperationException e) {
+      CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.remove(index) throw UnsupportedOperationException", e);
+    }
     return null;
   }
 
   public static boolean remove(List list, Object o) {
-    if (list != null) {
-      try {
-        return list.remove(o);
-      } catch (ClassCastException e) {
-        CrashDefensor.onCrash(ErrorCode.ClassCastException, "List.remove(o) throw ClassCastException", e);
-        return false;
-      } catch (NullPointerException e) {
-        String error = "List.remove(o) throw NullPointerException, due to the specified element is null and this list does not permit null elements.";
-        CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
-        return false;
-      } catch (UnsupportedOperationException e) {
-        CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.remove(o) throw UnsupportedOperationException", e);
-        return false;
-      }
+    try {
+      return list.remove(o);
+    } catch (ClassCastException e) {
+      CrashDefensor.onCrash(ErrorCode.ClassCastException, "List.remove(o) throw ClassCastException", e);
+    } catch (NullPointerException e) {
+      String error = "List.remove(o) throw NullPointerException, due to " +
+          (list == null ? "this list is null." : "the specified element is null and this list does not permit null elements.");
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
+    } catch (UnsupportedOperationException e) {
+      CrashDefensor.onCrash(ErrorCode.UnsupportedOperationException, "List.remove(o) throw UnsupportedOperationException", e);
     }
-    String error = "List.remove(o) throw NullPointerException";
-    CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
     return false;
   }
 
   public static <E> boolean addAll(List<E> list, Collection<? extends E> c) {
-    if (list == null || c == null) {
-      String error = "List.addAll(c) throw NullPointerException due to " + (list == null ? "this list" : "the specified collection") + " is null.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return false;
-    }
     try {
       return list.addAll(c);
     } catch (UnsupportedOperationException e) {
@@ -234,7 +212,8 @@ public class CollectionDefensor {
       String error = "List.addAll(c) throw ClassCastException due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.ClassCastException, error, e);
     } catch (NullPointerException e) {
-      String error = "List.addAll(c) throw NullPointerException, due to the specified collection contains one or more null elements and this list does not permit null elements.";
+      String error = "List.addAll(c) throw NullPointerException, due to " +
+          (list == null ? "this list is null." : c == null ? "the specified collection is null." : "the specified collection contains one or more null elements and this list does not permit null elements.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (IllegalArgumentException e) {
       String error = "List.addAll(c) throw IllegalArgumentException due to " + e.getMessage();
@@ -244,11 +223,6 @@ public class CollectionDefensor {
   }
 
   public static <E> boolean addAll(List<E> list, int index, Collection<? extends E> c) {
-    if (list == null || c == null) {
-      String error = "List.addAll(index,c) throw NullPointerException due to " + (list == null ? "this list" : "the specified collection") + " is null.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return false;
-    }
     try {
       return list.addAll(index, c);
     } catch (UnsupportedOperationException e) {
@@ -258,7 +232,8 @@ public class CollectionDefensor {
       String error = "List.addAll(index,c) throw ClassCastException, due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.ClassCastException, error, e);
     } catch (NullPointerException e) {
-      String error = "List.addAll(index,c) throw NullPointerException, due to " + e.getMessage();
+      String error = "List.addAll(index,c) throw NullPointerException, due to " +
+          (list == null ? "this list is null." : c == null ? "the specified collection is null." : "the specified collection contains one or more null elements and this list does not permit null elements.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (IllegalArgumentException e) {
       String error = "List.addAll(index,c) throw IllegalArgumentException, due to " + e.getMessage();
@@ -295,18 +270,13 @@ public class CollectionDefensor {
   ////////////////////////////////////////// map //////////////////////////////////////////
 
   public static <K, V> V get(Map<K, V> map, K key) {
-    if (map == null) {
-      String error = "Map.get() throw NullPointerException due to map is null";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return null;
-    }
     try {
       return map.get(key);
     } catch (ClassCastException e) {
       String error = "Map.get() throw ClassCastException";
       CrashDefensor.onCrash(ErrorCode.ClassCastException, error, e);
     } catch (NullPointerException e) {
-      String error = "Map.get() throw NullPointerException, due to the specified key is null and this map does not permit null keys.";
+      String error = "Map.get() throw NullPointerException, due to " + (map == null ? "this map is null." : "the specified key is null and this map does not permit null keys.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (StackOverflowError e) {
       String error = "Map.get() throw StackOverflowError";
@@ -316,11 +286,6 @@ public class CollectionDefensor {
   }
 
   public static <K, V> V put(Map<K, V> map, K key, V value) {
-    if (map == null) {
-      String error = "Map.put(key,value) throw NullPointerException due to map is null";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return null;
-    }
     try {
       return map.put(key, value);
     } catch (UnsupportedOperationException e) {
@@ -328,7 +293,7 @@ public class CollectionDefensor {
     } catch (ClassCastException e) {
       CrashDefensor.onCrash(ErrorCode.ClassCastException, "Map.put(key,value) throw ClassCastException due to" + e.getMessage(), e);
     } catch (NullPointerException e) {
-      String error = "Map.put(key,value) throw NullPointerException, due to the specified key or value is null and this map does not permit null keys or values.";
+      String error = "Map.put(key,value) throw NullPointerException, due to " + (map == null ? "this map is null." : "the specified key or value is null and this map does not permit null keys or values.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (IllegalArgumentException e) {
       CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Map.put(key,value) throw IllegalArgumentException due to" + e.getMessage(), e);
@@ -360,15 +325,10 @@ public class CollectionDefensor {
   }
 
   public static boolean containsKey(Map map, Object key) {
-    if (map == null) {
-      String error = "Map.containsKey(key) throw NullPointerException due to map is null.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return false;
-    }
     try {
       return map.containsKey(key);
     } catch (NullPointerException e) {
-      String error = "Map.containsKey(key) throw NullPointerException, due to the specified key is null and this map does not permit null keys.";
+      String error = "Map.containsKey(key) throw NullPointerException, due to " + (map == null ? "this map is null." : "the specified key is null and this map does not permit null keys.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (ClassCastException e) {
       String error = "Map.containsKey(key) throw ClassCastException, due to " + e.getMessage();
@@ -378,15 +338,10 @@ public class CollectionDefensor {
   }
 
   public static boolean containsValue(Map map, Object value) {
-    if (map == null) {
-      String error = "Map.containsValue(value) throw NullPointerException due to map is null.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return false;
-    }
     try {
       return map.containsValue(value);
     } catch (NullPointerException e) {
-      String error = "Map.containsValue(value) throw NullPointerException, due to the specified value is null and this map does not permit null values.";
+      String error = "Map.containsValue(value) throw NullPointerException, due to " + (map == null ? "this map is null." : "the specified value is null and this map does not permit null values.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     } catch (ClassCastException e) {
       String error = "Map.containsValue(value) throw ClassCastException, due to " + e.getMessage();
@@ -396,18 +351,13 @@ public class CollectionDefensor {
   }
 
   public static <K, V> void putAll(Map<K, V> map, Map<? extends K, ? extends V> m) {
-    if (map == null || m == null) {
-      String error = "Map.putAll(m) throw NullPointerException due to " + (map == null ? "this map" : "the specified map") + " is null.";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return;
-    }
     try {
       map.putAll(m);
     } catch (ClassCastException e) {
       String error = "Map.putAll(m) throw ClassCastException, due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.ClassCastException, error, e);
     } catch (NullPointerException e) {
-      String error = "Map.putAll(m) throw NullPointerException, due to this map does not permit null keys or values, and the specified map contains null keys or values.";
+      String error = "Map.putAll(m) throw NullPointerException, due to " + (map == null ? "this map is null." : m == null ? "the specified map is null." : "this map does not permit null keys or values, and the specified map contains null keys or values.");
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, e);
     }
   }
