@@ -6,8 +6,6 @@ plugins {
 android {
 
   defaultConfig {
-    versionCode = 1
-
     testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
   }
 
