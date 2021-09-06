@@ -4,15 +4,16 @@ package com.panda912.defensor;
  * Created by panda on 2021/8/17 13:43
  */
 public class CrashDefensor {
-  public static final boolean THROW_CRASH_WITH_DEBUG = true;
   private static ICrashCaughtListener crashCaughtListener = null;
 
   public static String applicationId = "";
-  public static boolean enableReport;
+  public static boolean enableReport = false;
+  public static boolean enableThrow = true;
 
   public static void init(Config config) {
     applicationId = config.applicationId;
     enableReport = config.enableReport;
+    enableThrow = config.enableThrow;
   }
 
   public static void onCrash(int errorCode, String msg, Throwable th) {
@@ -20,7 +21,7 @@ public class CrashDefensor {
       crashCaughtListener.onCrashCaught(errorCode, msg, th);
     }
 
-    if (THROW_CRASH_WITH_DEBUG && (th instanceof RuntimeException)) {
+    if (enableThrow && (th instanceof RuntimeException)) {
       throw ((RuntimeException) th);
     }
   }
@@ -32,6 +33,7 @@ public class CrashDefensor {
   public static class Config {
     private String applicationId;
     private boolean enableReport;
+    private boolean enableThrow;
 
     public Config setApplicationId(String applicationId) {
       this.applicationId = applicationId;
@@ -40,6 +42,11 @@ public class CrashDefensor {
 
     public Config setEnableReport(boolean enableReport) {
       this.enableReport = enableReport;
+      return this;
+    }
+
+    public Config setEnableThrow(boolean enableThrow) {
+      this.enableThrow = enableThrow;
       return this;
     }
   }

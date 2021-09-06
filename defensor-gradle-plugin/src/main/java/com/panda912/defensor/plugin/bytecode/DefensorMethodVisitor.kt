@@ -1,6 +1,7 @@
 package com.panda912.defensor.plugin.bytecode
 
 import android.app.Activity
+import android.content.Context
 import android.view.View
 import android.widget.TextView
 import com.panda912.defensor.plugin.utils.*
@@ -181,6 +182,20 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
           isInterface
         )
         return
+      }
+
+      // ContextCompat
+      if (owner == CONTEXT_COMPAT_CLASS.toInternalName()) {
+        if (name == "checkSelfPermission" && descriptor == "(Landroid/content/Context;Ljava/lang/String;)I") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            "checkSelfPermissionWithContextCompat",
+            descriptor,
+            isInterface
+          )
+          return
+        }
       }
 
     }
@@ -470,13 +485,143 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
           (name == "getPackageName" && descriptor == "()Ljava/lang/String;") ||
           (name == "getSystemService" && descriptor == "(Ljava/lang/String;)Ljava/lang/Object;") ||
           (name == "getFilesDir" && descriptor == "()Ljava/io/File;") ||
-          (name == "bindService" && descriptor == "(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z")
+          (name == "bindService" && descriptor == "(Landroid/content/Intent;Landroid/content/ServiceConnection;I)Z") ||
+          (name == "checkPermission" && descriptor == "(Ljava/lang/String;II)I") ||
+          (name == "checkCallingPermission" && descriptor == "(Ljava/lang/String;)I") ||
+          (name == "checkSelfPermission" && descriptor == "(Ljava/lang/String;)I") ||
+          (name == "checkCallingOrSelfPermission" && descriptor == "(Ljava/lang/String;)I")
         ) {
           super.visitMethodInsn(
             Opcodes.INVOKESTATIC,
             CONTEXT_DEFENSOR.toInternalName(),
             name,
             descriptor.convertToStaticDescriptor("Landroid/content/Context;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (
+        (name == "sendBroadcast" && descriptor == "(Landroid/content/Intent;)V") ||
+        (name == "registerReceiver" && descriptor == "(Landroid/content/BroadcastReceiver;Landroid/content/IntentFilter;)Landroid/content/Intent;") ||
+        (name == "unregisterReceiver" && descriptor == "(Landroid/content/BroadcastReceiver;)V")
+      ) {
+        try {
+          if (Context::class.java.isAssignableFrom(Class.forName(owner.toClassName()))) {
+            super.visitMethodInsn(
+              Opcodes.INVOKESTATIC,
+              DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+              name,
+              descriptor.convertToStaticDescriptor("Landroid/content/Context;"),
+              isInterface
+            )
+            return
+          }
+        } catch (ignored: Throwable) {
+        }
+      }
+
+
+      if (owner == PACKAGE_MANAGER_CLASS.toInternalName()) {
+        if (
+          (name == "getPackageInfo" && descriptor == "(Ljava/lang/String;I)Landroid/content/pm/PackageInfo;") ||
+          (name == "getApplicationInfo" && descriptor == "(Ljava/lang/String;I)Landroid/content/pm/ApplicationInfo;")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/content/pm/PackageManager;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == WINDOW_MANAGER_CLASS.toInternalName()) {
+        if (name == "getDefaultDisplay" && descriptor == "()Landroid/view/Display;") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/view/WindowManager;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == DISPLAY_CLASS.toInternalName()) {
+        if (name == "getSize" && descriptor == "(Landroid/graphics/Point;)V") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            "getDisplaySize",
+            descriptor.convertToStaticDescriptor("Landroid/view/Display;"),
+            isInterface
+          )
+          return
+        }
+        if (name == "getRefreshRate" && descriptor == "()F") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            "getDisplayRefreshRate",
+            descriptor.convertToStaticDescriptor("Landroid/view/Display;"),
+            isInterface
+          )
+          return
+        }
+        if (name == "getMetrics" && descriptor == "(Landroid/util/DisplayMetrics;)V") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            "getDisplayMetrics",
+            descriptor.convertToStaticDescriptor("Landroid/view/Display;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == CONNECTIVITY_MANAGER_CLASS.toInternalName()) {
+        if (name == "getActiveNetworkInfo" && descriptor == "()Landroid/net/NetworkInfo;") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/net/ConnectivityManager;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == ACTIVITY_MANAGER_CLASS.toInternalName()) {
+        if (name == "getRunningAppProcesses" && descriptor == "()Ljava/util/List;") {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/app/ActivityManager;"),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == TELEPHONY_MANAGER_CLASS.toInternalName()) {
+        if (
+          (name == "getMeid" && (descriptor == "()Ljava/lang/String;" || descriptor == "(I)Ljava/lang/String;")) ||
+          (name == "getDeviceId" && (descriptor == "()Ljava/lang/String;" || descriptor == "(I)Ljava/lang/String;")) ||
+          (name == "getSubscriberId" && descriptor == "()Ljava/lang/String;")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/telephony/TelephonyManager;"),
             isInterface
           )
           return

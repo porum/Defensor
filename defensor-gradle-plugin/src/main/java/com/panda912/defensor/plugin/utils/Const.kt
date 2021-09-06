@@ -29,17 +29,29 @@ const val CONCURRENT_HASHMAP_CLASS = "java.util.concurrent.ConcurrentHashMap"
 const val JSONOBJECT_CLASS = "org.json.JSONObject"
 const val JSONARRAY_CLASS = "org.json.JSONArray"
 const val CONTEXT_CLASS = "android.content.Context"
+const val CONTEXT_COMPAT_CLASS = "androidx.core.content.ContextCompat"
+const val CONTEXT_WRAPPER_CLASS = "android.content.ContextWrapper"
+const val APPLICATION_CLASS = "android.app.Application"
 const val INTENT_CLASS = "android.content.Intent"
 const val DIALOG_CLASS = "android.app.Dialog"
 const val URI_CLASS = "android.net.Uri"
 const val ACTIVITY_CLASS = "android.app.Activity"
 const val WEBVIEW_CLASS = "android.webkit.WebView"
 const val RECYCLER_CLASS = "androidx.recyclerview.widget.RecyclerView\$Recycler"
+const val PACKAGE_MANAGER_CLASS = "android.content.pm.PackageManager"
+const val PACKAGE_INFO_CLASS = "android.content.pm.PackageInfo"
+const val WINDOW_MANAGER_CLASS = "android.view.WindowManager"
+const val DISPLAY_CLASS = "android.view.Display"
+const val DISPLAY_METRICS_CLASS = "android.util.DisplayMetrics"
+const val CONNECTIVITY_MANAGER_CLASS = "android.net.ConnectivityManager"
+const val ACTIVITY_MANAGER_CLASS = "android.app.ActivityManager"
+const val TELEPHONY_MANAGER_CLASS = "android.telephony.TelephonyManager"
 
 
 const val ACTIVITY_DEFENSOR = "com.panda912.defensor.internal.ActivityDefensor"
 const val COLLECTION_DEFENSOR = "com.panda912.defensor.internal.CollectionDefensor"
 const val CONTEXT_DEFENSOR = "com.panda912.defensor.internal.ContextDefensor"
+const val DEAD_OBJECT_CRASH_HANDLER = "com.panda912.defensor.internal.DeadObjectCrashHandler"
 const val FILE_DEFENSOR = "com.panda912.defensor.internal.FileDefensor"
 const val INTENT_DEFENSOR = "com.panda912.defensor.internal.IntentDefensor"
 const val JSON_DEFENSOR = "com.panda912.defensor.internal.JsonDefensor"
@@ -61,6 +73,7 @@ val DEFENSOR_CLASS_LIST = listOf(
   ACTIVITY_DEFENSOR,
   COLLECTION_DEFENSOR,
   CONTEXT_DEFENSOR,
+  DEAD_OBJECT_CRASH_HANDLER,
   FILE_DEFENSOR,
   INTENT_DEFENSOR,
   JSON_DEFENSOR,

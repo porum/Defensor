@@ -3,6 +3,10 @@ package com.panda912.defensor.internal;
 import android.content.Context;
 import android.content.Intent;
 import android.content.ServiceConnection;
+import android.content.pm.PackageManager;
+import android.os.Build;
+
+import androidx.annotation.RequiresApi;
 
 import com.panda912.defensor.CrashDefensor;
 import com.panda912.defensor.ErrorCode;
@@ -63,6 +67,63 @@ public class ContextDefensor {
     } catch (SecurityException e) {
       CrashDefensor.onCrash(ErrorCode.SecurityException, "Context.bindService() throw SecurityException", e);
       return false;
+    }
+  }
+
+  public static int checkPermission(Context context, String permission, int pid, int uid) {
+    if (context == null || permission == null) {
+      String error = "Context.checkPermission(String permission, int pid, int uid) due to " + (context == null ? "context" : "permission") + " is null";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return PackageManager.PERMISSION_DENIED;
+    }
+    try {
+      return context.checkPermission(permission, pid, uid);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "Context.checkPermission(String permission, int pid, int uid) due to DeadSystemException", e);
+      return PackageManager.PERMISSION_DENIED;
+    }
+  }
+
+  public static int checkCallingPermission(Context context, String permission) {
+    if (context == null || permission == null) {
+      String error = "Context.checkCallingPermission(String permission) due to " + (context == null ? "context" : "permission") + " is null";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return PackageManager.PERMISSION_DENIED;
+    }
+    try {
+      return context.checkCallingPermission(permission);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "Context.checkCallingPermission(String permission) due to DeadSystemException", e);
+      return PackageManager.PERMISSION_DENIED;
+    }
+  }
+
+  @RequiresApi(api = Build.VERSION_CODES.M)
+  public static int checkSelfPermission(Context context, String permission) {
+    if (context == null || permission == null) {
+      String error = "Context.checkSelfPermission(String permission) due to " + (context == null ? "context" : "permission") + " is null";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return PackageManager.PERMISSION_DENIED;
+    }
+    try {
+      return context.checkSelfPermission(permission);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "Context.checkSelfPermission(String permission) due to DeadSystemException", e);
+      return PackageManager.PERMISSION_DENIED;
+    }
+  }
+
+  public static int checkCallingOrSelfPermission(Context context, String permission) {
+    if (context == null || permission == null) {
+      String error = "Context.checkCallingOrSelfPermission(String permission) due to " + (context == null ? "context" : "permission") + " is null";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return PackageManager.PERMISSION_DENIED;
+    }
+    try {
+      return context.checkCallingOrSelfPermission(permission);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "Context.checkCallingOrSelfPermission(String permission) due to DeadSystemException", e);
+      return PackageManager.PERMISSION_DENIED;
     }
   }
 
