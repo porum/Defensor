@@ -1,10 +1,8 @@
 package com.panda912.defensor.sample
 
+import android.Manifest
 import android.app.Dialog
-import android.content.ComponentName
-import android.content.Context
-import android.content.Intent
-import android.content.ServiceConnection
+import android.content.*
 import android.os.Bundle
 import android.os.IBinder
 import android.util.Log
@@ -13,6 +11,7 @@ import android.webkit.WebView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatTextView
+import androidx.core.content.ContextCompat
 import com.panda912.defensor.sample.widget.CustomTextView
 import org.json.JSONArray
 import org.json.JSONObject
@@ -20,6 +19,9 @@ import org.json.JSONObject
 private const val TAG = "MainActivity"
 
 class MainActivity : AppCompatActivity() {
+
+  private val receiver = Receiver()
+
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
@@ -94,6 +96,20 @@ class MainActivity : AppCompatActivity() {
     "adaddadada".subSequence(2, 1)
     " daada ".trim()
     "dadad".toCharArray()
+
+    registerReceiver(receiver, IntentFilter().apply {
+      addAction(Intent.ACTION_BATTERY_CHANGED)
+    })
+    sendBroadcast(Intent())
+
+    val ret = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+    val result = checkCallingOrSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+
+  }
+
+  override fun onStop() {
+    super.onStop()
+    unregisterReceiver(receiver)
   }
 
   class InnerDialog(context: Context) : Dialog(context) {
