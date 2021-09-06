@@ -628,6 +628,22 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
         }
       }
 
+      if (owner == PAINT_CLASS.toInternalName()) {
+        if (
+          (name == "measureText" && (descriptor == "([CII)F" || descriptor == "(Ljava/lang/String;II)F" || descriptor == "(Ljava/lang/String;)F" || descriptor == "(Ljava/lang/CharSequence;II)F")) ||
+          (name == "getTextBounds" && (descriptor == "(Ljava/lang/String;IILandroid/graphics/Rect;)V" || descriptor == "(Ljava/lang/CharSequence;IILandroid/graphics/Rect;)V" || descriptor == "([CIILandroid/graphics/Rect;)V"))
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            PAINT_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroid/graphics/Paint;"),
+            isInterface
+          )
+          return
+        }
+      }
+
     }
 
     super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)

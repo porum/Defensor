@@ -46,6 +46,7 @@ const val DISPLAY_METRICS_CLASS = "android.util.DisplayMetrics"
 const val CONNECTIVITY_MANAGER_CLASS = "android.net.ConnectivityManager"
 const val ACTIVITY_MANAGER_CLASS = "android.app.ActivityManager"
 const val TELEPHONY_MANAGER_CLASS = "android.telephony.TelephonyManager"
+const val PAINT_CLASS = "android.graphics.Paint"
 
 
 const val ACTIVITY_DEFENSOR = "com.panda912.defensor.internal.ActivityDefensor"
@@ -57,6 +58,7 @@ const val INTENT_DEFENSOR = "com.panda912.defensor.internal.IntentDefensor"
 const val JSON_DEFENSOR = "com.panda912.defensor.internal.JsonDefensor"
 const val NULL_POINTER_EXCEPTION_DEFENSOR =
   "com.panda912.defensor.internal.NullPointerExceptionDefensor"
+const val PAINT_DEFENSOR = "com.panda912.defensor.internal.PaintDefensor"
 const val PRIMITIVE_TYPE_PARSER = "com.panda912.defensor.internal.PrimitiveTypeParser"
 const val SAFE_DIALOG = "com.panda912.defensor.internal.SafeDialog"
 const val SAFE_FILE = "com.panda912.defensor.internal.SafeFile"
@@ -78,6 +80,7 @@ val DEFENSOR_CLASS_LIST = listOf(
   INTENT_DEFENSOR,
   JSON_DEFENSOR,
   NULL_POINTER_EXCEPTION_DEFENSOR,
+  PAINT_DEFENSOR,
   PRIMITIVE_TYPE_PARSER,
   SAFE_DIALOG,
   SAFE_FILE,
