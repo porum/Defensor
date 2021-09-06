@@ -66,7 +66,7 @@ const val STRING_DEFENSOR = "com.panda912.defensor.internal.StringDefensor"
 const val TEXTVIEW_DEFENSOR = "com.panda912.defensor.internal.TextViewDefensor"
 const val THROWABLE_DEFENSOR = "com.panda912.defensor.internal.ThrowableDefensor"
 const val UNBOXING_DEFENSOR = "com.panda912.defensor.internal.UnboxingDefensor"
-const val URI_DEFENSOR = "com.panda912.defensor.UriDefensor"
+const val URI_DEFENSOR = "com.panda912.defensor.internal.UriDefensor"
 const val VIEW_DEFENSOR = "com.panda912.defensor.internal.ViewDefensor"
 
 val DEFENSOR_CLASS_LIST = listOf(
