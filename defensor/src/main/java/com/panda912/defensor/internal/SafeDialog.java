@@ -3,6 +3,7 @@ package com.panda912.defensor.internal;
 import android.app.Dialog;
 import android.content.Context;
 import android.view.MotionEvent;
+import android.view.WindowManager;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -32,7 +33,7 @@ public class SafeDialog extends Dialog {
     try {
       super.dismiss();
     } catch (IllegalArgumentException e) {
-      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Dialog.dismiss() throw IllegalArgumentException", e);
+      CrashDefensor.onCrash(ErrorCode.DialogException, "Dialog.dismiss() throw IllegalArgumentException", e);
     }
   }
 
@@ -41,8 +42,17 @@ public class SafeDialog extends Dialog {
     try {
       return super.dispatchTouchEvent(ev);
     } catch (IllegalArgumentException e) {
-      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Dialog.dispatchTouchEvent() throw IllegalArgumentException", e);
+      CrashDefensor.onCrash(ErrorCode.DialogException, "Dialog.dispatchTouchEvent() throw IllegalArgumentException", e);
       return true;
+    }
+  }
+
+  @Override
+  public void show() {
+    try {
+      super.show();
+    } catch (WindowManager.BadTokenException e) {
+      CrashDefensor.onCrash(ErrorCode.DialogException, "Dialog.show() throw BadTokenException", e);
     }
   }
 }
