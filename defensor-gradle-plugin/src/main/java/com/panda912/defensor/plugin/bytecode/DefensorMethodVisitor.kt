@@ -470,7 +470,7 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
         if (name == "isDestroyed" || name == "isChangingConfigurations") {
           super.visitMethodInsn(
             Opcodes.INVOKESTATIC,
-            URI_DEFENSOR.toInternalName(),
+            ACTIVITY_DEFENSOR.toInternalName(),
             name,
             descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
             isInterface
