@@ -82,7 +82,7 @@ public class PaintDefensor {
     return 0f;
   }
 
-  public void getTextBounds(Paint paint, String text, int start, int end, Rect bounds) {
+  public static void getTextBounds(Paint paint, String text, int start, int end, Rect bounds) {
     if (paint == null || bounds == null) {
       String error = "Paint.getTextBounds(String text, int start, int end, Rect bounds) throw NullPointerException, due to " + (paint == null ? "paint" : "bounds") + " is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
@@ -97,7 +97,7 @@ public class PaintDefensor {
   }
 
   @RequiresApi(api = Build.VERSION_CODES.Q)
-  public void getTextBounds(Paint paint, CharSequence text, int start, int end, Rect bounds) {
+  public static void getTextBounds(Paint paint, CharSequence text, int start, int end, Rect bounds) {
     if (paint == null || bounds == null) {
       String error = "Paint.getTextBounds(CharSequence text, int start, int end, Rect bounds) throw NullPointerException, due to " + (paint == null ? "paint" : "bounds") + " is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
@@ -111,7 +111,7 @@ public class PaintDefensor {
     }
   }
 
-  public void getTextBounds(Paint paint, char[] text, int index, int count, Rect bounds) {
+  public static void getTextBounds(Paint paint, char[] text, int index, int count, Rect bounds) {
     if (paint == null || bounds == null) {
       String error = "Paint.getTextBounds(char[] text, int start, int end, Rect bounds) throw NullPointerException, due to " + (paint == null ? "paint" : "bounds") + " is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
