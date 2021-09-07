@@ -113,12 +113,18 @@ afterEvaluate {
       }
     }
 
+    val VERSION: String by project
     val sonatypeUserName: String by project
     val sonatypePassword: String by project
 
     repositories {
       maven {
-        setUrl("https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/")
+        val url = if (VERSION.endsWith("-SNAPSHOT")) {
+          "https://s01.oss.sonatype.org/content/repositories/snapshots/"
+        } else {
+          "https://s01.oss.sonatype.org/service/local/staging/deploy/maven2/"
+        }
+        setUrl(url)
         credentials {
           username = sonatypeUserName
           password = sonatypePassword
