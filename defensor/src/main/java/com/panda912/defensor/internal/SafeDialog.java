@@ -53,6 +53,8 @@ public class SafeDialog extends Dialog {
       super.show();
     } catch (WindowManager.BadTokenException e) {
       CrashDefensor.onCrash(ErrorCode.DialogException, "Dialog.show() throw BadTokenException", e);
+    } catch (WindowManager.InvalidDisplayException e) {
+      CrashDefensor.onCrash(ErrorCode.DialogException, "Dialog.show() throw InvalidDisplayException", e);
     }
   }
 }

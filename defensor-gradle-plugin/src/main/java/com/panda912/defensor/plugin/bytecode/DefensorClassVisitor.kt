@@ -1,8 +1,6 @@
 package com.panda912.defensor.plugin.bytecode
 
-import com.panda912.defensor.plugin.utils.DIALOG_CLASS
-import com.panda912.defensor.plugin.utils.SAFE_DIALOG
-import com.panda912.defensor.plugin.utils.toInternalName
+import com.panda912.defensor.plugin.utils.*
 import org.objectweb.asm.ClassVisitor
 import org.objectweb.asm.ClassWriter
 import org.objectweb.asm.MethodVisitor
@@ -25,6 +23,12 @@ class DefensorClassVisitor(classWriter: ClassWriter) : ClassVisitor(Opcodes.ASM7
     // Dialog
     if (superName == DIALOG_CLASS.toInternalName()) {
       super.visit(version, access, name, signature, SAFE_DIALOG.toInternalName(), interfaces)
+      return
+    }
+
+    // DialogFragment
+    if (superName == DIALOG_FRAGMENT_CLASS.toInternalName()) {
+      super.visit(version, access, name, signature, SAFE_DIALOG_FRAGMENT.toInternalName(), interfaces)
       return
     }
 

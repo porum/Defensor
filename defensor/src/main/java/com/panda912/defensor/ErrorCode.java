@@ -20,4 +20,5 @@ public interface ErrorCode {
   int ClassCastException = 113;
   int DialogException = 114;
   int URLDecoderException = 115;
+  int IllegalStateException = 116;
 }

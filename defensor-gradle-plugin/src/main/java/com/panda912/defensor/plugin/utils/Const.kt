@@ -34,6 +34,8 @@ const val CONTEXT_WRAPPER_CLASS = "android.content.ContextWrapper"
 const val APPLICATION_CLASS = "android.app.Application"
 const val INTENT_CLASS = "android.content.Intent"
 const val DIALOG_CLASS = "android.app.Dialog"
+const val DIALOG_FRAGMENT_CLASS = "androidx.fragment.app.DialogFragment"
+const val FRAGMENT_MANAGER_CLASS = "androidx.fragment.app.FragmentManager"
 const val URI_CLASS = "android.net.Uri"
 const val ACTIVITY_CLASS = "android.app.Activity"
 const val WEBVIEW_CLASS = "android.webkit.WebView"
@@ -54,6 +56,9 @@ const val COLLECTION_DEFENSOR = "com.panda912.defensor.internal.CollectionDefens
 const val CONTEXT_DEFENSOR = "com.panda912.defensor.internal.ContextDefensor"
 const val DEAD_OBJECT_CRASH_HANDLER = "com.panda912.defensor.internal.DeadObjectCrashHandler"
 const val FILE_DEFENSOR = "com.panda912.defensor.internal.FileDefensor"
+const val FRAGMENT_DEFENSOR = "com.panda912.defensor.internal.FragmentDefensor"
+const val FRAGMENTX_DEFENSOR = "com.panda912.defensor.internal.FragmentXDefensor"
+const val FRAGMENT_MANAGER_DEFENSOR = "com.panda912.defensor.internal.FragmentManagerDefensor"
 const val INTENT_DEFENSOR = "com.panda912.defensor.internal.IntentDefensor"
 const val JSON_DEFENSOR = "com.panda912.defensor.internal.JsonDefensor"
 const val NULL_POINTER_EXCEPTION_DEFENSOR =
@@ -61,6 +66,7 @@ const val NULL_POINTER_EXCEPTION_DEFENSOR =
 const val PAINT_DEFENSOR = "com.panda912.defensor.internal.PaintDefensor"
 const val PRIMITIVE_TYPE_PARSER = "com.panda912.defensor.internal.PrimitiveTypeParser"
 const val SAFE_DIALOG = "com.panda912.defensor.internal.SafeDialog"
+const val SAFE_DIALOG_FRAGMENT = "com.panda912.defensor.internal.SafeDialogFragment"
 const val SAFE_FILE = "com.panda912.defensor.internal.SafeFile"
 const val SAFE_JSON_ARRAY = "com.panda912.defensor.internal.SafeJSONArray"
 const val SAFE_JSON_OBJECT = "com.panda912.defensor.internal.SafeJSONObject"
@@ -77,12 +83,16 @@ val DEFENSOR_CLASS_LIST = listOf(
   CONTEXT_DEFENSOR,
   DEAD_OBJECT_CRASH_HANDLER,
   FILE_DEFENSOR,
+  FRAGMENT_DEFENSOR,
+  FRAGMENTX_DEFENSOR,
+  FRAGMENT_MANAGER_DEFENSOR,
   INTENT_DEFENSOR,
   JSON_DEFENSOR,
   NULL_POINTER_EXCEPTION_DEFENSOR,
   PAINT_DEFENSOR,
   PRIMITIVE_TYPE_PARSER,
   SAFE_DIALOG,
+  SAFE_DIALOG_FRAGMENT,
   SAFE_FILE,
   SAFE_JSON_ARRAY,
   SAFE_JSON_OBJECT,

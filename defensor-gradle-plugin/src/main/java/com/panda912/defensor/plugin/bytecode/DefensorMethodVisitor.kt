@@ -1,6 +1,7 @@
 package com.panda912.defensor.plugin.bytecode
 
 import android.app.Activity
+import android.app.Fragment
 import android.content.Context
 import android.view.View
 import android.widget.TextView
@@ -473,6 +474,59 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
             ACTIVITY_DEFENSOR.toInternalName(),
             name,
             descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
+            isInterface
+          )
+          return
+        }
+      }
+
+      // Fragment
+      if (
+        (name == "getContext" && descriptor == "()Landroid/content/Context;") ||
+        (name == "getActivity" && descriptor == "()Landroid/app/Activity;") ||
+        (name == "isAdded" && descriptor == "()Z") ||
+        (name == "isDetached" && descriptor == "()Z") ||
+        (name == "isRemoving" && descriptor == "()Z") ||
+        (name == "isInLayout" && descriptor == "()Z") ||
+        (name == "isResumed" && descriptor == "()Z") ||
+        (name == "isVisible" && descriptor == "()Z") ||
+        (name == "isHidden" && descriptor == "()Z") ||
+        (name == "startActivity" && (descriptor == "(Landroid/content/Intent;)V" || descriptor == "(Landroid/content/Intent;Landroid/os/Bundle;)V")) ||
+        (name == "startActivityForResult" && (descriptor == "(Landroid/content/Intent;I)V" || descriptor == "(Landroid/content/Intent;ILandroid/os/Bundle;)V")) ||
+        (name == "getView" && descriptor == "()Landroid/view/View;")
+      ) {
+        if (owner == Type.getInternalName(Fragment::class.java)) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            FRAGMENT_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor(Type.getDescriptor(Fragment::class.java)),
+            isInterface
+          )
+          return
+        } else if (owner == Type.getInternalName(androidx.fragment.app.Fragment::class.java)) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            FRAGMENTX_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor(Type.getDescriptor(androidx.fragment.app.Fragment::class.java)),
+            isInterface
+          )
+          return
+        }
+      }
+
+      if (owner == FRAGMENT_MANAGER_CLASS.toInternalName()) {
+        if (
+          (name == "popBackStack" && descriptor == "()V") ||
+          (name == "putFragment" && descriptor == "(Landroid/os/Bundle;Ljava/lang/String;Landroidx/fragment/app/Fragment;)V") ||
+          (name == "getFragment" && descriptor == "(Landroid/os/Bundle;Ljava/lang/String;)Landroidx/fragment/app/Fragment;")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            FRAGMENT_MANAGER_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor(Type.getDescriptor(androidx.fragment.app.FragmentManager::class.java)),
             isInterface
           )
           return
