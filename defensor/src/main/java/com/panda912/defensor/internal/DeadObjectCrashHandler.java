@@ -306,12 +306,12 @@ public class DeadObjectCrashHandler {
 
   public static int checkSelfPermissionWithContextCompat(Context context, String permission) {
     if (context == null) {
-      String error = "ContextCompat.checkSelfPermission() due to context is null";
+      String error = "ContextCompat.checkSelfPermission() throw NullPointerException, due to context is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return PackageManager.PERMISSION_DENIED;
     }
     if (permission == null) {
-      String error = "ContextCompat.checkSelfPermission() due to permission is null";
+      String error = "ContextCompat.checkSelfPermission() throw IllegalArgumentException, due to permission is null.";
       CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, error, new IllegalArgumentException(error));
       return PackageManager.PERMISSION_DENIED;
     }
@@ -327,7 +327,7 @@ public class DeadObjectCrashHandler {
 
   public static NetworkInfo getActiveNetworkInfo(ConnectivityManager connectivityManager) {
     if (connectivityManager == null) {
-      String error = "ConnectivityManager.getActiveNetworkInfo() due to connectivityManager is null";
+      String error = "ConnectivityManager.getActiveNetworkInfo() throw NullPointerException, due to connectivityManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return null;
     }
@@ -339,9 +339,11 @@ public class DeadObjectCrashHandler {
     }
   }
 
+  ///////////////////////////////// ActivityManager /////////////////////////////////
+
   public static List<ActivityManager.RunningAppProcessInfo> getRunningAppProcesses(ActivityManager activityManager) {
     if (activityManager == null) {
-      String error = "ActivityManager.getRunningAppProcesses() due to activityManager is null";
+      String error = "ActivityManager.getRunningAppProcesses() throw NullPointerException, due to activityManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return Collections.emptyList();
     }
@@ -353,12 +355,44 @@ public class DeadObjectCrashHandler {
     }
   }
 
+  public static List<ActivityManager.RunningServiceInfo> getRunningServices(ActivityManager activityManager, int maxNum) {
+    if (activityManager == null) {
+      String error = "ActivityManager.getRunningServices(int maxNum) throw NullPointerException, due to activityManager is null.";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return Collections.emptyList();
+    }
+    try {
+      return activityManager.getRunningServices(maxNum);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "ActivityManager.getRunningServices(int maxNum) due to DeadSystemException", e);
+      return Collections.emptyList();
+    }
+  }
+
+  public static void getMemoryInfo(ActivityManager activityManager, ActivityManager.MemoryInfo outInfo) {
+    if (activityManager == null) {
+      String error = "ActivityManager.getMemoryInfo(MemoryInfo outInfo) throw NullPointerException, due to activityManager is null.";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return;
+    }
+    if (outInfo == null) {
+      String error = "ActivityManager.getMemoryInfo(MemoryInfo outInfo) throw IllegalArgumentException, due to outInfo is null.";
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, error, new IllegalArgumentException(error));
+      return;
+    }
+    try {
+      activityManager.getMemoryInfo(outInfo);
+    } catch (Exception e) {
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "ActivityManager.getMemoryInfo(MemoryInfo outInfo) due to DeadSystemException", e);
+    }
+  }
+
   ///////////////////////////////// TelephonyManager /////////////////////////////////
 
   @RequiresApi(api = Build.VERSION_CODES.O)
   public static String getMeid(TelephonyManager telephonyManager) {
     if (telephonyManager == null) {
-      String error = "TelephonyManager.getMeid() due to telephonyManager is null";
+      String error = "TelephonyManager.getMeid() throw NullPointerException, due to telephonyManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return "";
     }
@@ -373,14 +407,14 @@ public class DeadObjectCrashHandler {
   @RequiresApi(api = Build.VERSION_CODES.O)
   public static String getMeid(TelephonyManager telephonyManager, int slotIndex) {
     if (telephonyManager == null) {
-      String error = "TelephonyManager.getMeid(slotIndex) due to telephonyManager is null";
+      String error = "TelephonyManager.getMeid(int slotIndex) NullPointerException, due to telephonyManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return "";
     }
     try {
       return telephonyManager.getMeid(slotIndex);
     } catch (Exception e) {
-      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "TelephonyManager.getMeid(slotIndex) due to TelephonyManager has died", e);
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "TelephonyManager.getMeid(int slotIndex) due to TelephonyManager has died", e);
       return "";
     }
   }
@@ -388,7 +422,7 @@ public class DeadObjectCrashHandler {
   @SuppressLint("HardwareIds")
   public static String getDeviceId(TelephonyManager telephonyManager) {
     if (telephonyManager == null) {
-      String error = "TelephonyManager.getDeviceId() due to telephonyManager is null";
+      String error = "TelephonyManager.getDeviceId() throw NullPointerException, due to telephonyManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return "";
     }
@@ -404,14 +438,14 @@ public class DeadObjectCrashHandler {
   @RequiresApi(api = Build.VERSION_CODES.M)
   public static String getDeviceId(TelephonyManager telephonyManager, int slotIndex) {
     if (telephonyManager == null) {
-      String error = "TelephonyManager.getDeviceId(slotIndex) due to telephonyManager is null";
+      String error = "TelephonyManager.getDeviceId(int slotIndex) throw NullPointerException, due to telephonyManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return "";
     }
     try {
       return telephonyManager.getDeviceId(slotIndex);
     } catch (Exception e) {
-      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "TelephonyManager.getDeviceId(slotIndex) due to TelephonyManager has died", e);
+      CrashDefensor.onCrash(ErrorCode.DeadObjectException, "TelephonyManager.getDeviceId(int slotIndex) due to TelephonyManager has died", e);
       return "";
     }
   }
@@ -419,7 +453,7 @@ public class DeadObjectCrashHandler {
   @SuppressLint("HardwareIds")
   public static String getSubscriberId(TelephonyManager telephonyManager) {
     if (telephonyManager == null) {
-      String error = "TelephonyManager.getSubscriberId() due to telephonyManager is null";
+      String error = "TelephonyManager.getSubscriberId() throw NullPointerException, due to telephonyManager is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
       return "";
     }

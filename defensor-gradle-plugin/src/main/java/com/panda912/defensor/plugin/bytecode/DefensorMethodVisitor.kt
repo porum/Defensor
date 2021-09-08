@@ -465,31 +465,31 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
         )
         return
       }
-      if (
-        (name == "requestPermissions" && descriptor == "([Ljava/lang/String;I)V") ||
-        (name == "finish" && descriptor == "()V") ||
-        (name == "finishAffinity" && descriptor == "()V") ||
-        (name == "finishAfterTransition" && descriptor == "()V") ||
-        (name == "finishActivity" && descriptor == "(I)V") ||
-        (name == "finishAndRemoveTask" && descriptor == "()V") ||
-        (name == "isTaskRoot" && descriptor == "()Z") ||
-        (name == "moveTaskToBack" && descriptor == "(Z)Z") ||
-        (name == "isFinishing" && descriptor == "()Z") ||
-        (name == "isDestroyed" && descriptor == "()Z") ||
-        (name == "isChangingConfigurations" && descriptor == "()Z")
-      ) {
-        super.visitMethodInsn(
-          Opcodes.INVOKESTATIC,
-          ACTIVITY_DEFENSOR.toInternalName(),
-          name,
-          descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
-          isInterface
-        )
-        return
-      }
 
-      // activity
+      // Activity
       if (owner == ACTIVITY_CLASS.toInternalName()) {
+        if (
+          (name == "requestPermissions" && descriptor == "([Ljava/lang/String;I)V") ||
+          (name == "finish" && descriptor == "()V") ||
+          (name == "finishAffinity" && descriptor == "()V") ||
+          (name == "finishAfterTransition" && descriptor == "()V") ||
+          (name == "finishActivity" && descriptor == "(I)V") ||
+          (name == "finishAndRemoveTask" && descriptor == "()V") ||
+          (name == "isTaskRoot" && descriptor == "()Z") ||
+          (name == "moveTaskToBack" && descriptor == "(Z)Z") ||
+          (name == "isFinishing" && descriptor == "()Z") ||
+          (name == "isDestroyed" && descriptor == "()Z") ||
+          (name == "isChangingConfigurations" && descriptor == "()Z")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            ACTIVITY_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
+            isInterface
+          )
+          return
+        }
       }
 
       // Fragment
@@ -682,7 +682,11 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
       }
 
       if (owner == ACTIVITY_MANAGER_CLASS.toInternalName()) {
-        if (name == "getRunningAppProcesses" && descriptor == "()Ljava/util/List;") {
+        if (
+          (name == "getRunningAppProcesses" && descriptor == "()Ljava/util/List;") ||
+          (name == "getRunningServices" && descriptor == "(I)Ljava/util/List;") ||
+          (name == "getMemoryInfo" && descriptor == "(Landroid/app/ActivityManager\$MemoryInfo;)V")
+        ) {
           super.visitMethodInsn(
             Opcodes.INVOKESTATIC,
             DEAD_OBJECT_CRASH_HANDLER.toInternalName(),
