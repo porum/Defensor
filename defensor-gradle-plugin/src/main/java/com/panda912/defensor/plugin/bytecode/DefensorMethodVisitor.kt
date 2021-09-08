@@ -465,19 +465,31 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
         )
         return
       }
+      if (
+        (name == "requestPermissions" && descriptor == "([Ljava/lang/String;I)V") ||
+        (name == "finish" && descriptor == "()V") ||
+        (name == "finishAffinity" && descriptor == "()V") ||
+        (name == "finishAfterTransition" && descriptor == "()V") ||
+        (name == "finishActivity" && descriptor == "(I)V") ||
+        (name == "finishAndRemoveTask" && descriptor == "()V") ||
+        (name == "isTaskRoot" && descriptor == "()Z") ||
+        (name == "moveTaskToBack" && descriptor == "(Z)Z") ||
+        (name == "isFinishing" && descriptor == "()Z") ||
+        (name == "isDestroyed" && descriptor == "()Z") ||
+        (name == "isChangingConfigurations" && descriptor == "()Z")
+      ) {
+        super.visitMethodInsn(
+          Opcodes.INVOKESTATIC,
+          ACTIVITY_DEFENSOR.toInternalName(),
+          name,
+          descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
+          isInterface
+        )
+        return
+      }
 
       // activity
       if (owner == ACTIVITY_CLASS.toInternalName()) {
-        if (name == "isDestroyed" || name == "isChangingConfigurations") {
-          super.visitMethodInsn(
-            Opcodes.INVOKESTATIC,
-            ACTIVITY_DEFENSOR.toInternalName(),
-            name,
-            descriptor.convertToStaticDescriptor(Type.getDescriptor(Activity::class.java)),
-            isInterface
-          )
-          return
-        }
       }
 
       // Fragment
@@ -527,6 +539,23 @@ class DefensorMethodVisitor(mv: MethodVisitor) : MethodVisitor(Opcodes.ASM7, mv)
             FRAGMENT_MANAGER_DEFENSOR.toInternalName(),
             name,
             descriptor.convertToStaticDescriptor(Type.getDescriptor(androidx.fragment.app.FragmentManager::class.java)),
+            isInterface
+          )
+          return
+        }
+      }
+
+      // LiveData
+      if (owner == MUTABLE_LIVE_DATA_CLASS.toInternalName()) {
+        if (
+          (name == "observe" && descriptor == "(Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Observer;)V") ||
+          (name == "observeForever" && descriptor == "(Landroidx/lifecycle/Observer;)V")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            LIVE_DATA_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Landroidx/lifecycle/LiveData;"),
             isInterface
           )
           return

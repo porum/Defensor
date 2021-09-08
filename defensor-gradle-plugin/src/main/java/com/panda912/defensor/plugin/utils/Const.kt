@@ -36,6 +36,7 @@ const val INTENT_CLASS = "android.content.Intent"
 const val DIALOG_CLASS = "android.app.Dialog"
 const val DIALOG_FRAGMENT_CLASS = "androidx.fragment.app.DialogFragment"
 const val FRAGMENT_MANAGER_CLASS = "androidx.fragment.app.FragmentManager"
+const val MUTABLE_LIVE_DATA_CLASS = "androidx.lifecycle.MutableLiveData"
 const val URI_CLASS = "android.net.Uri"
 const val ACTIVITY_CLASS = "android.app.Activity"
 const val WEBVIEW_CLASS = "android.webkit.WebView"
@@ -61,6 +62,7 @@ const val FRAGMENTX_DEFENSOR = "com.panda912.defensor.internal.FragmentXDefensor
 const val FRAGMENT_MANAGER_DEFENSOR = "com.panda912.defensor.internal.FragmentManagerDefensor"
 const val INTENT_DEFENSOR = "com.panda912.defensor.internal.IntentDefensor"
 const val JSON_DEFENSOR = "com.panda912.defensor.internal.JsonDefensor"
+const val LIVE_DATA_DEFENSOR = "com.panda912.defensor.internal.LiveDataDefensor"
 const val NULL_POINTER_EXCEPTION_DEFENSOR =
   "com.panda912.defensor.internal.NullPointerExceptionDefensor"
 const val PAINT_DEFENSOR = "com.panda912.defensor.internal.PaintDefensor"
@@ -88,6 +90,7 @@ val DEFENSOR_CLASS_LIST = listOf(
   FRAGMENT_MANAGER_DEFENSOR,
   INTENT_DEFENSOR,
   JSON_DEFENSOR,
+  LIVE_DATA_DEFENSOR,
   NULL_POINTER_EXCEPTION_DEFENSOR,
   PAINT_DEFENSOR,
   PRIMITIVE_TYPE_PARSER,
