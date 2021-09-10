@@ -14,7 +14,7 @@ public class LiveDataDefensor {
 
   public static <T> void observe(LiveData<T> liveData, LifecycleOwner owner, Observer<? super T> observer) {
     if (liveData == null || owner == null || observer == null) {
-      String err = "LiveData.observe(LifecycleOwner owner, Observer observer) throw NullPointerException, due to "
+      String err = "LiveData.observe(owner, observer) throw NullPointerException, due to "
           + (liveData == null ? "liveData" : owner == null ? "owner" : "observer") + " is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, err, new NullPointerException(err));
       return;
@@ -22,14 +22,17 @@ public class LiveDataDefensor {
     try {
       liveData.observe(owner, observer);
     } catch (IllegalArgumentException e) {
-      String err = "LiveData.observe(LifecycleOwner owner, Observer observer) throw IllegalArgumentException";
+      String err = "LiveData.observe(owner, observer) throw IllegalArgumentException, due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, err, e);
+    } catch (IllegalStateException e) {
+      String err = "LiveData.observe(owner, observer) throw IllegalStateException, due to " + e.getMessage();
+      CrashDefensor.onCrash(ErrorCode.IllegalStateException, err, e);
     }
   }
 
   public static <T> void observeForever(LiveData<T> liveData, Observer<? super T> observer) {
     if (liveData == null || observer == null) {
-      String err = "LiveData.observeForever(Observer observer) throw NullPointerException, due to "
+      String err = "LiveData.observeForever(observer) throw NullPointerException, due to "
           + (liveData == null ? "liveData" : "observer") + " is null.";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, err, new NullPointerException(err));
       return;
@@ -37,8 +40,11 @@ public class LiveDataDefensor {
     try {
       liveData.observeForever(observer);
     } catch (IllegalArgumentException e) {
-      String err = "LiveData.observeForever(Observer observer) throw IllegalArgumentException";
+      String err = "LiveData.observeForever(observer) throw IllegalArgumentException, due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, err, e);
+    } catch (IllegalStateException e) {
+      String err = "LiveData.observeForever(observer) throw IllegalStateException, due to " + e.getMessage();
+      CrashDefensor.onCrash(ErrorCode.IllegalStateException, err, e);
     }
   }
 

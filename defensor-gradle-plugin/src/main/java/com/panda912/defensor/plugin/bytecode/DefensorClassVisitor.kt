@@ -32,6 +32,12 @@ class DefensorClassVisitor(classWriter: ClassWriter) : ClassVisitor(Opcodes.ASM7
       return
     }
 
+//    // MutableLiveData
+//    if (superName == MUTABLE_LIVE_DATA_CLASS.toInternalName()) {
+//      super.visit(version, access, name, signature, SAFE_MUTABLE_LIVE_DATA.toInternalName(), interfaces)
+//      return
+//    }
+
     super.visit(version, access, name, signature, superName, interfaces)
   }
 

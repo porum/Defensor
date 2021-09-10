@@ -72,6 +72,7 @@ const val SAFE_DIALOG_FRAGMENT = "com.panda912.defensor.internal.SafeDialogFragm
 const val SAFE_FILE = "com.panda912.defensor.internal.SafeFile"
 const val SAFE_JSON_ARRAY = "com.panda912.defensor.internal.SafeJSONArray"
 const val SAFE_JSON_OBJECT = "com.panda912.defensor.internal.SafeJSONObject"
+const val SAFE_MUTABLE_LIVE_DATA = "com.panda912.defensor.internal.SafeMutableLiveData"
 const val STRING_DEFENSOR = "com.panda912.defensor.internal.StringDefensor"
 const val TEXTVIEW_DEFENSOR = "com.panda912.defensor.internal.TextViewDefensor"
 const val THROWABLE_DEFENSOR = "com.panda912.defensor.internal.ThrowableDefensor"
@@ -99,6 +100,7 @@ val DEFENSOR_CLASS_LIST = listOf(
   SAFE_FILE,
   SAFE_JSON_ARRAY,
   SAFE_JSON_OBJECT,
+  SAFE_MUTABLE_LIVE_DATA,
   STRING_DEFENSOR,
   TEXTVIEW_DEFENSOR,
   THROWABLE_DEFENSOR,
