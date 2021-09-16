@@ -15,10 +15,12 @@ import org.gradle.api.Project
 class DefensorPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
-    when (val extension = target.extensions.findByType(BaseExtension::class.java)) {
-      is AppExtension -> extension.registerTransform(AppDefensorTransform())
-      is LibraryExtension -> extension.registerTransform(LibDefensorTransform())
+    val extension = target.extensions.getByType(BaseExtension::class.java)
+    val transform = when (extension) {
+      is AppExtension -> AppDefensorTransform()
+      is LibraryExtension -> LibDefensorTransform()
       else -> throw BadPluginException("Required android application or library module.")
     }
+    extension.registerTransform(transform)
   }
 }
