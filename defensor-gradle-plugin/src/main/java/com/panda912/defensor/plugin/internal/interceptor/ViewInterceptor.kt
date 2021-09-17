@@ -109,7 +109,7 @@ class ViewMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
             Opcodes.INVOKESTATIC,
             VIEW_DEFENSOR.toInternalName(),
             name,
-            descriptor.convertToStaticDescriptor("Landroidx/recyclerview/widget/RecyclerView\$Recycler"),
+            descriptor.convertToStaticDescriptor("Landroidx/recyclerview/widget/RecyclerView\$Recycler;"),
             isInterface
           )
           return
