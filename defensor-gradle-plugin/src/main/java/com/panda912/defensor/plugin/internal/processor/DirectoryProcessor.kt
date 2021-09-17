@@ -33,15 +33,13 @@ class DirectoryProcessor : SpecifiedQualifiedContentProcessor {
                 Status.CHANGED -> {
                   doTransform(changedFile, outputFile)
                 }
-                else -> {
-                }
               }
             }
         } else {
-          getOutputFile(directoryInput).deleteRecursively()
+          outputDir.deleteRecursively()
           inputDir.walkTopDown().toList().parallelStream().filter { it.isFile }.forEach {
             val outputFile = FileUtils.getOutputFile(inputDir, it, outputDir)
-            if (it.extension == "class" && !it.isDefensorClass()) {
+            if (it.extension == "class" && !it.invariantSeparatorsPath.isDefensorClass()) {
               FileUtils.ensureParentDirsCreated(outputFile)
               doTransform(it, outputFile)
             } else {
@@ -73,7 +71,7 @@ class DirectoryProcessor : SpecifiedQualifiedContentProcessor {
       LiveDataInterceptor(),
       PaintInterceptor(),
     )
-    val input = Input(FileInputStream(inputFile).readBytes())
+    val input = Input(inputFile.absolutePath, FileInputStream(inputFile).readBytes())
     val chain = BytecodeInterceptorChain(interceptors + FinalInterceptor(), 0, input)
     val output = chain.proceed(input)
     outputFile.writeBytes(output.bytes)

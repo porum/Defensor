@@ -2,16 +2,23 @@ package com.panda912.defensor.plugin
 
 import com.android.build.api.transform.*
 import java.io.File
+import java.util.jar.JarFile
 
 /**
  * Created by panda on 2021/9/13 09:24
  */
-class TransformContext(private val transformInvocation: TransformInvocation) {
+class TransformContext(
+  private val global: Global,
+  private val transformInvocation: TransformInvocation
+) {
+  private val androidJarClasses = arrayListOf<String>()
   private val allDirs = arrayListOf<DirectoryInput>()
   private val allJars = arrayListOf<JarInput>()
   private val changedFiles = hashMapOf<File, Status>()
 
   init {
+//    unzipAndroidJar()
+
     transformInvocation.inputs.forEach { transformInput ->
       allDirs.addAll(transformInput.directoryInputs)
       allJars.addAll(transformInput.jarInputs)
@@ -21,6 +28,15 @@ class TransformContext(private val transformInvocation: TransformInvocation) {
       }
       transformInput.jarInputs.forEach {
         changedFiles[it.file] = it.status
+      }
+    }
+  }
+
+  private fun unzipAndroidJar() {
+    val androidJar = JarFile(global.getAndroidJar())
+    androidJar.entries().iterator().forEachRemaining {
+      if (!it.isDirectory) {
+        androidJarClasses.add(it.name)
       }
     }
   }
@@ -40,4 +56,6 @@ class TransformContext(private val transformInvocation: TransformInvocation) {
       qualifiedContent.scopes,
       if (qualifiedContent is JarInput) Format.JAR else Format.DIRECTORY
     )
+
+  fun isAndroidJarClass(className: String): Boolean = androidJarClasses.contains(className)
 }

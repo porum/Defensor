@@ -16,9 +16,10 @@ class DefensorPlugin : Plugin<Project> {
 
   override fun apply(target: Project) {
     val extension = target.extensions.getByType(BaseExtension::class.java)
+    val global = Global(target, extension, AndroidJarProvider.DEFAULT)
     val transform = when (extension) {
-      is AppExtension -> AppDefensorTransform()
-      is LibraryExtension -> LibDefensorTransform()
+      is AppExtension -> AppDefensorTransform(global)
+      is LibraryExtension -> LibDefensorTransform(global)
       else -> throw BadPluginException("Required android application or library module.")
     }
     extension.registerTransform(transform)

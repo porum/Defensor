@@ -7,6 +7,8 @@ import java.io.File
  * Created by panda on 2021/8/13 17:25
  */
 
+const val DEFENSOR_PACKAGE = "com.panda912.defensor.internal"
+
 const val DOT_CLASS = ".class"
 
 const val BOOLEAN_CLASS = "java.lang.Boolean"
@@ -63,8 +65,6 @@ const val FRAGMENT_MANAGER_DEFENSOR = "com.panda912.defensor.internal.FragmentMa
 const val INTENT_DEFENSOR = "com.panda912.defensor.internal.IntentDefensor"
 const val JSON_DEFENSOR = "com.panda912.defensor.internal.JsonDefensor"
 const val LIVE_DATA_DEFENSOR = "com.panda912.defensor.internal.LiveDataDefensor"
-const val NULL_POINTER_EXCEPTION_DEFENSOR =
-  "com.panda912.defensor.internal.NullPointerExceptionDefensor"
 const val PAINT_DEFENSOR = "com.panda912.defensor.internal.PaintDefensor"
 const val PRIMITIVE_TYPE_PARSER = "com.panda912.defensor.internal.PrimitiveTypeParser"
 const val SAFE_DIALOG = "com.panda912.defensor.internal.SafeDialog"
@@ -80,41 +80,10 @@ const val UNBOXING_DEFENSOR = "com.panda912.defensor.internal.UnboxingDefensor"
 const val URI_DEFENSOR = "com.panda912.defensor.internal.UriDefensor"
 const val VIEW_DEFENSOR = "com.panda912.defensor.internal.ViewDefensor"
 
-val DEFENSOR_CLASS_LIST = listOf(
-  ACTIVITY_DEFENSOR,
-  COLLECTION_DEFENSOR,
-  CONTEXT_DEFENSOR,
-  DEAD_OBJECT_CRASH_HANDLER,
-  FILE_DEFENSOR,
-  FRAGMENT_DEFENSOR,
-  FRAGMENTX_DEFENSOR,
-  FRAGMENT_MANAGER_DEFENSOR,
-  INTENT_DEFENSOR,
-  JSON_DEFENSOR,
-  LIVE_DATA_DEFENSOR,
-  NULL_POINTER_EXCEPTION_DEFENSOR,
-  PAINT_DEFENSOR,
-  PRIMITIVE_TYPE_PARSER,
-  SAFE_DIALOG,
-  SAFE_DIALOG_FRAGMENT,
-  SAFE_FILE,
-  SAFE_JSON_ARRAY,
-  SAFE_JSON_OBJECT,
-  SAFE_MUTABLE_LIVE_DATA,
-  STRING_DEFENSOR,
-  TEXTVIEW_DEFENSOR,
-  THROWABLE_DEFENSOR,
-  UNBOXING_DEFENSOR,
-  URI_DEFENSOR,
-  VIEW_DEFENSOR
-).map {
-  it.toInternalName().toClass()
-}
-
 fun String.toInternalName() = replace('.', '/')
 fun String.toClassName() = replace('/', '.')
 fun String.toClass() = this + DOT_CLASS
-fun File.isDefensorClass() = DEFENSOR_CLASS_LIST.indexOfFirst { this.endsWith(it) } != -1
+fun String.isDefensorClass() = this.contains(DEFENSOR_PACKAGE.toInternalName())
 
 
 const val DESCRIPTOR_PUT_EXTRA =
