@@ -33,12 +33,13 @@ public class ContextDefensor {
       return null;
     }
     try {
-      Object service = context.getSystemService(name);
-      if (service == null) {
-        String error = "Context.getSystemService(\"" + name + "\") return null.";
-        CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      }
-      return service;
+//      Object service = context.getSystemService(name);
+//      if (service == null) {
+//        String error = "Context.getSystemService(\"" + name + "\") return null.";
+//        CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+//      }
+//      return service;
+      return context.getSystemService(name);
     } catch (Throwable e) {
       CrashDefensor.onCrash(ErrorCode.DeadObjectException, "Context.getSystemService(String name) throw DeadObjectException", e);
       return null;
