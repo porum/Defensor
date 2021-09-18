@@ -4,10 +4,10 @@ import android.content.Context
 import android.util.AttributeSet
 import androidx.appcompat.widget.AppCompatTextView
 
-class CustomTextView(
+class CustomTextView @JvmOverloads constructor(
   context: Context,
-  attrs: AttributeSet,
-  defStyleAttr: Int
+  attrs: AttributeSet? = null,
+  defStyleAttr: Int = android.R.attr.textViewStyle
 ) : AppCompatTextView(context, attrs, defStyleAttr) {
 
 }
