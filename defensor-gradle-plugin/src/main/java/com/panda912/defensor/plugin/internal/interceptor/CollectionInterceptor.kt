@@ -39,6 +39,7 @@ class CollectionInterceptor : BytecodeInterceptor {
 
 class CollectionMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
 
+  // Array
   override fun visitInsn(opcode: Int) {
 
     val descriptor = when (opcode) {
@@ -73,17 +74,18 @@ class CollectionMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
   ) {
 
     // List
-    if ((opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL) &&
+    if (
+      (opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL) &&
       (owner == LIST_CLASS.toInternalName() ||
           owner == ARRAY_LIST_CLASS.toInternalName() ||
           owner == LINKED_LIST_CLASS.toInternalName() ||
           owner == COPY_ON_WRITE_ARRAY_LIST_CLASS.toInternalName()) &&
-      (name == "size" ||
-          name == "get" ||
-          name == "add" ||
-          name == "remove" ||
-          name == "addAll" ||
-          name == "clear")
+      ((name == "size" && descriptor == "()I") ||
+          (name == "get" && descriptor == "(I)Ljava/lang/Object;") ||
+          (name == "add" && (descriptor == "(Ljava/lang/Object;)Z" || descriptor == "(ILjava/lang/Object;)V")) ||
+          (name == "remove" && (descriptor == "(I)Ljava/lang/Object;" || descriptor == "(Ljava/lang/Object;)Z")) ||
+          (name == "addAll" && (descriptor == "(Ljava/util/Collection;)Z" || descriptor == "(ILjava/util/Collection;)Z")) ||
+          (name == "clear" && descriptor == "()V"))
     ) {
       super.visitMethodInsn(
         Opcodes.INVOKESTATIC,
@@ -96,18 +98,19 @@ class CollectionMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
     }
 
     // Map
-    if ((opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL) &&
+    if (
+      (opcode == Opcodes.INVOKEINTERFACE || opcode == Opcodes.INVOKEVIRTUAL) &&
       (owner == MAP_CLASS.toInternalName() ||
           owner == ARRAYMAP_CLASS.toInternalName() ||
           owner == HASHMAP_CLASS.toInternalName() ||
           owner == CONCURRENT_HASHMAP_CLASS.toInternalName()) &&
-      (name == "size" ||
-          name == "put" ||
-          name == "get" ||
-          name == "clear" ||
-          name == "containsKey" ||
-          name == "containsValue" ||
-          name == "putAll")
+      ((name == "size" && descriptor == "()I") ||
+          (name == "put" && descriptor == "(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;") ||
+          (name == "get" && descriptor == "(Ljava/lang/Object;)Ljava/lang/Object;") ||
+          (name == "clear" && descriptor == "()V") ||
+          (name == "containsKey" && descriptor == "(Ljava/lang/Object;)Z") ||
+          (name == "containsValue" && descriptor == "(Ljava/lang/Object;)Z") ||
+          (name == "putAll" && descriptor == "(Ljava/util/Map;)V"))
     ) {
       super.visitMethodInsn(
         Opcodes.INVOKESTATIC,
