@@ -69,6 +69,8 @@ class DirectoryProcessor : SpecifiedQualifiedContentProcessor {
       UriInterceptor(),
       LiveDataInterceptor(),
       PaintInterceptor(),
+      GridLayoutManagerInterceptor(),
+      ValueAnimatorInterceptor()
     )
     val input = Input(inputFile.absolutePath, inputFile.readBytes())
     val chain = BytecodeInterceptorChain(interceptors + FinalInterceptor(), 0, input)

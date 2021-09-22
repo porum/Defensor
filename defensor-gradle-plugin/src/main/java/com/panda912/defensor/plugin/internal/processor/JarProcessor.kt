@@ -82,6 +82,8 @@ class JarProcessor : SpecifiedQualifiedContentProcessor {
       UriInterceptor(),
       LiveDataInterceptor(),
       PaintInterceptor(),
+      GridLayoutManagerInterceptor(),
+      ValueAnimatorInterceptor()
     )
     val input = Input(name, inputStream.readBytes())
     val chain = BytecodeInterceptorChain(interceptors + FinalInterceptor(), 0, input)
