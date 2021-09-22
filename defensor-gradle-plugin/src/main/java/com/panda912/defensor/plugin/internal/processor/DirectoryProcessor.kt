@@ -8,7 +8,6 @@ import com.panda912.defensor.plugin.internal.interceptor.*
 import com.panda912.defensor.plugin.utils.FileUtils
 import com.panda912.defensor.plugin.utils.isDefensorClass
 import java.io.File
-import java.io.FileInputStream
 
 /**
  * Created by panda on 2021/9/14 17:47
@@ -71,7 +70,7 @@ class DirectoryProcessor : SpecifiedQualifiedContentProcessor {
       LiveDataInterceptor(),
       PaintInterceptor(),
     )
-    val input = Input(inputFile.absolutePath, FileInputStream(inputFile).readBytes())
+    val input = Input(inputFile.absolutePath, inputFile.readBytes())
     val chain = BytecodeInterceptorChain(interceptors + FinalInterceptor(), 0, input)
     val output = chain.proceed(input)
     outputFile.writeBytes(output.bytes)
