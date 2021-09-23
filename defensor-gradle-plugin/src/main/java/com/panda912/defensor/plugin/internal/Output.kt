@@ -4,6 +4,7 @@ package com.panda912.defensor.plugin.internal
  * Created by panda on 2021/9/14 16:16
  */
 data class Output(
+  val className: String,
   val bytes: ByteArray
 ) {
 

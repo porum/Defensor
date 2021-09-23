@@ -1,6 +1,7 @@
 package com.panda912.defensor.plugin
 
 import com.android.build.api.transform.*
+import com.panda912.defensor.plugin.extension.DefaultDefensorExtension
 import java.io.File
 import java.util.jar.JarFile
 
@@ -9,6 +10,7 @@ import java.util.jar.JarFile
  */
 class TransformContext(
   private val global: Global,
+  private val extension: DefaultDefensorExtension,
   private val transformInvocation: TransformInvocation
 ) {
   private val androidJarClasses = arrayListOf<String>()
@@ -30,6 +32,8 @@ class TransformContext(
         changedFiles[it.file] = it.status
       }
     }
+
+    convertExcludesToInternalName()
   }
 
   private fun unzipAndroidJar() {
@@ -39,6 +43,10 @@ class TransformContext(
         androidJarClasses.add(it.name)
       }
     }
+  }
+
+  private fun convertExcludesToInternalName() {
+    extension.excludes = extension.excludes.map { it.replace(".", "/") }
   }
 
   fun isIncremental(): Boolean = transformInvocation.isIncremental
@@ -58,4 +66,8 @@ class TransformContext(
     )
 
   fun isAndroidJarClass(className: String): Boolean = androidJarClasses.contains(className)
+
+  fun isEnable(): Boolean = extension.enable
+
+  fun excludes(): List<String> = extension.excludes
 }

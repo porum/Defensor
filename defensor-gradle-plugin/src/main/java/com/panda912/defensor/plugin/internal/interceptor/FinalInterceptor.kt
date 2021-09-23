@@ -9,7 +9,8 @@ import com.panda912.defensor.plugin.internal.Output
 class FinalInterceptor : BytecodeInterceptor {
 
   override fun intercept(chain: BytecodeInterceptor.Chain): Output {
-    return Output(chain.request().bytes)
+    val input = chain.request()
+    return Output(input.className, input.bytes)
   }
 
 }

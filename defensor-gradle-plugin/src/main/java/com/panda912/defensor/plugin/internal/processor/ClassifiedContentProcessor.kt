@@ -17,9 +17,9 @@ class ClassifiedContentProcessor private constructor(
     }
   }
 
-  override fun process(context: TransformContext) {
+  override fun process(context: TransformContext, injector: BytecodeInjector) {
     processors.forEach {
-      it.process(context)
+      it.process(context, injector)
     }
   }
 
