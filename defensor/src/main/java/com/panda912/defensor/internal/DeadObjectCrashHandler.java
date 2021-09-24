@@ -36,7 +36,7 @@ public class DeadObjectCrashHandler {
 
   ///////////////////////////////// PackageManager /////////////////////////////////
 
-  public static PackageInfo getPackageInfo(PackageManager packageManager, String packageName, int flags) throws PackageManager.NameNotFoundException {
+  public static PackageInfo getPackageInfo(PackageManager packageManager, String packageName, int flags) throws NameNotFoundException {
     if (packageManager == null || TextUtils.isEmpty(packageName)) {
       String error = "PackageManager.getPackageInfo() due to " + (packageManager == null ? "packageManager" : "packageName") + " is null";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
@@ -50,7 +50,7 @@ public class DeadObjectCrashHandler {
     }
   }
 
-  public static ApplicationInfo getApplicationInfo(PackageManager packageManager, String packageName, int flags) throws PackageManager.NameNotFoundException {
+  public static ApplicationInfo getApplicationInfo(PackageManager packageManager, String packageName, int flags) throws NameNotFoundException {
     if (packageManager == null || TextUtils.isEmpty(packageName)) {
       String error = "PackageManager.getApplicationInfo() due to " + (packageManager == null ? "packageManager" : "packageName") + " is null";
       CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));

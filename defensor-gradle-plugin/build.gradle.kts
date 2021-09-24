@@ -6,10 +6,14 @@ plugins {
   id("org.jetbrains.dokka") version "1.5.0"
 }
 
+val AGP_VERSION: String by project
+val KOTLIN_VERSION: String by project
+
 dependencies {
+  compileOnly("com.android.tools.build:gradle:$AGP_VERSION")
+  compileOnly(kotlin("gradle-plugin", KOTLIN_VERSION))
   implementation(gradleApi())
-  compileOnly("com.android.tools.build:gradle:4.2.2")
-  compileOnly(kotlin("gradle-plugin", "1.5.21"))
+  implementation("org.ow2.asm:asm:9.2")
   implementation(project(":defensor-stub-android"))
 }
 
