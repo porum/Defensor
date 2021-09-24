@@ -39,26 +39,13 @@ class SafeDialogClassVisitor(cw: ClassWriter) : BaseClassVisitor(cw) {
     interfaces: Array<out String>?
   ) {
 
-    // Dialog
-    if (superName == DIALOG_CLASS.toInternalName()) {
-      super.visit(version, access, name, signature, SAFE_DIALOG.toInternalName(), interfaces)
-      return
+    val replacedSuperName = when (superName) {
+      DIALOG_CLASS.toInternalName() -> SAFE_DIALOG.toInternalName()
+      DIALOG_FRAGMENT_CLASS.toInternalName() -> SAFE_DIALOG_FRAGMENT.toInternalName()
+      else -> superName
     }
 
-    // DialogFragment
-    if (superName == DIALOG_FRAGMENT_CLASS.toInternalName()) {
-      super.visit(
-        version,
-        access,
-        name,
-        signature,
-        SAFE_DIALOG_FRAGMENT.toInternalName(),
-        interfaces
-      )
-      return
-    }
-
-    super.visit(version, access, name, signature, superName, interfaces)
+    super.visit(version, access, name, signature, replacedSuperName, interfaces)
   }
 
 }
