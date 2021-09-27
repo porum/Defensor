@@ -7,12 +7,10 @@ public class CrashDefensor {
   private static ICrashCaughtListener crashCaughtListener = null;
 
   public static String applicationId = "";
-  public static boolean enableReport = false;
   public static boolean enableThrow = true;
 
   public static void init(Config config) {
     applicationId = config.applicationId;
-    enableReport = config.enableReport;
     enableThrow = config.enableThrow;
   }
 
@@ -32,16 +30,10 @@ public class CrashDefensor {
 
   public static class Config {
     private String applicationId;
-    private boolean enableReport;
     private boolean enableThrow;
 
     public Config setApplicationId(String applicationId) {
       this.applicationId = applicationId;
-      return this;
-    }
-
-    public Config setEnableReport(boolean enableReport) {
-      this.enableReport = enableReport;
       return this;
     }
 
