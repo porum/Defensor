@@ -1,8 +1,8 @@
 # Defensor
 
-[![license](https://img.shields.io/badge/license-Apache--2.0-brightgreen.svg)](https://www.apache.org/licenses/LICENSE-2.0)
-[![defensor](https://img.shields.io/badge/defensor-1.3.0--SNAPSHOT-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor/1.3.0-SNAPSHOT/aar)
-[![defensor-gradle-plugin](https://img.shields.io/badge/defensor--gradle--plugin-1.3.0--SNAPSHOT-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor-gradle-plugin/1.3.0-SNAPSHOT/jar)
+[![license](https://img.shields.io/badge/license-Apache--2.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+[![defensor](https://img.shields.io/badge/defensor-1.3.0-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor/1.3.0/aar)
+[![defensor-gradle-plugin](https://img.shields.io/badge/defensor--gradle--plugin-1.3.0-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor-gradle-plugin/1.3.0/jar)
 
 Defensor is a gradle-plugin that can reduce Android App crashes.
 
