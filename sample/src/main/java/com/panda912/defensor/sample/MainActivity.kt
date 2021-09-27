@@ -22,8 +22,24 @@ class MainActivity : AppCompatActivity() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setContentView(R.layout.activity_main)
-    ArrayDemo.test(arrayOf("p", "a", "n", "d", "a"))
-//    ArrayDemo.test(listOf("p", "a", "n", "d", "a"))
+    ArrayDemo.test(arrayOf("p", "a", "n", "d", "a", "p", "o", "r", "u", "m"), 7)
+    ArrayDemo.test1(arrayOf("p", "a", "n", "d", "a"))
+    ArrayDemo.test2(byteArrayOf(1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11))
+    ArrayDemo.test3(
+      booleanArrayOf(
+        true,
+        true,
+        true,
+        true,
+        true,
+        false,
+        true,
+        false,
+        false,
+        false,
+        true
+      )
+    )
 
 //    val context: Context = this
 //    context.bindService(Intent(), object : ServiceConnection {
