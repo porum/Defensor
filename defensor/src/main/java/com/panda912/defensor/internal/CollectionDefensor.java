@@ -14,6 +14,19 @@ public class CollectionDefensor {
 
   ////////////////////////////////////////// array //////////////////////////////////////////
 
+  public static boolean get(boolean[] arr, int i) {
+    if (arr != null && i >= 0 && i < arr.length) {
+      return arr[i];
+    }
+    if (arr == null) {
+      String error = "boolean[i] throw NullPointerException";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
+      return false;
+    }
+    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, "boolean[i] throw IndexOutOfBoundsException", new IndexOutOfBoundsException("boolean[" + i + "] length " + arr.length + " throw IndexOutOfBoundsException"));
+    return false;
+  }
+
   public static byte get(byte[] arr, int i) {
     if (arr != null && i >= 0 && i < arr.length) {
       return arr[i];

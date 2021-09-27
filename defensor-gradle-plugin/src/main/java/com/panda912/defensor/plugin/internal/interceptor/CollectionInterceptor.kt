@@ -40,30 +40,30 @@ class CollectionInterceptor : BytecodeInterceptor {
 class CollectionMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
 
   // Array
-  override fun visitInsn(opcode: Int) {
-
-    val descriptor = when (opcode) {
-      Opcodes.IALOAD -> "([II)I"
-      Opcodes.LALOAD -> "([JI)J"
-      Opcodes.FALOAD -> "([FI)F"
-      Opcodes.DALOAD -> "([DI)D"
-      Opcodes.CALOAD -> "([CI)C"
-      Opcodes.SALOAD -> "([SI)S"
-      else -> null
-    }
-
-    if (descriptor.isNullOrEmpty()) {
-      super.visitInsn(opcode)
-    } else {
-      super.visitMethodInsn(
-        Opcodes.INVOKESTATIC,
-        COLLECTION_DEFENSOR.toInternalName(),
-        "get",
-        descriptor,
-        false
-      )
-    }
-  }
+//  override fun visitInsn(opcode: Int) {
+//
+//    val descriptor = when (opcode) {
+//      Opcodes.IALOAD -> "([II)I"
+//      Opcodes.LALOAD -> "([JI)J"
+//      Opcodes.FALOAD -> "([FI)F"
+//      Opcodes.DALOAD -> "([DI)D"
+//      Opcodes.CALOAD -> "([CI)C"
+//      Opcodes.SALOAD -> "([SI)S"
+//      else -> null
+//    }
+//
+//    if (descriptor.isNullOrEmpty()) {
+//      super.visitInsn(opcode)
+//    } else {
+//      super.visitMethodInsn(
+//        Opcodes.INVOKESTATIC,
+//        COLLECTION_DEFENSOR.toInternalName(),
+//        "get",
+//        descriptor,
+//        false
+//      )
+//    }
+//  }
 
   override fun visitMethodInsn(
     opcode: Int,

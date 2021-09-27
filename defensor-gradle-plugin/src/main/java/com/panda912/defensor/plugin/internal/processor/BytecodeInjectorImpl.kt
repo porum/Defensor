@@ -20,6 +20,7 @@ class BytecodeInjectorImpl : BytecodeInjector {
 
   override fun inject(fullName: String, className: String, bytes: ByteArray): ByteArray {
     val interceptors = listOf(
+      ArrayInterceptor(),
       UnboxingInterceptor(),
       PrimitiveInterceptor(),
       CollectionInterceptor(),

@@ -2,8 +2,8 @@ plugins {
   id("java-library")
   kotlin("jvm")
   `java-gradle-plugin`
-  id("com.gradle.plugin-publish") version "0.15.0"
-  id("org.jetbrains.dokka") version "1.5.0"
+  id("com.gradle.plugin-publish") version "0.16.0"
+  id("org.jetbrains.dokka") version "1.5.30"
 }
 
 val AGP_VERSION: String by project
