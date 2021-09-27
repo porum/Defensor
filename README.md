@@ -37,6 +37,43 @@ To generate Java language code suitable for Java or mixed Java and Kotlin module
 apply plugin: "defensor"
 ```
 
+## Advance Usage
+
+- #### support `excludes` packages/classes
+
+  ```groovy
+  defensor {
+      excludes = [
+              "android",
+              "androidx",
+              "kotlin",
+              "kotlinx",
+              "yourpackage.YourClass"
+      ]
+  }
+  ```
+
+- #### support `setCrashCaughtListener`
+
+  ```kotlin
+  CrashDefensor.init(
+    CrashDefensor.Config()
+      .setApplicationId(“applicationId”)
+      .setEnableThrow(true)
+  )
+  CrashDefensor.setCrashCaughtListener { code, msg, th ->
+    Log.i("CrashDefensor", "[$code] $msg $th")
+  }
+  ```
+
+## Decompile
+
+|             Before             |            After             |
+| :----------------------------: | :--------------------------: |
+| ![before](./assets/before.png) | ![after](./assets/after.png) |
+
+
+
 ## License
 
 ```
