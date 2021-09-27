@@ -5,8 +5,8 @@ import com.panda912.defensor.plugin.internal.Output
 import com.panda912.defensor.plugin.internal.visitor.BaseClassReader
 import com.panda912.defensor.plugin.internal.visitor.BaseClassVisitor
 import com.panda912.defensor.plugin.internal.visitor.BaseMethodVisitor
-import com.panda912.defensor.plugin.utils.LIVE_DATA_DEFENSOR
-import com.panda912.defensor.plugin.utils.MUTABLE_LIVE_DATA_CLASS
+import com.panda912.defensor.plugin.utils.HANDLER_CLASS
+import com.panda912.defensor.plugin.utils.HANDLER_DEFENSOR
 import com.panda912.defensor.plugin.utils.convertToStaticDescriptor
 import com.panda912.defensor.plugin.utils.toInternalName
 import org.objectweb.asm.ClassWriter
@@ -14,9 +14,10 @@ import org.objectweb.asm.MethodVisitor
 import org.objectweb.asm.Opcodes
 
 /**
- * Created by panda on 2021/9/15 18:23
+ * Created by panda on 2021/9/27 15:51
  */
-class LiveDataInterceptor : BytecodeInterceptor {
+class HandlerInterceptor : BytecodeInterceptor {
+
   override fun intercept(chain: BytecodeInterceptor.Chain): Output {
     val input = chain.request()
 
@@ -31,7 +32,7 @@ class LiveDataInterceptor : BytecodeInterceptor {
         exceptions: Array<out String>?
       ): MethodVisitor {
         val mv = super.visitMethod(access, name, descriptor, signature, exceptions)
-        return LiveDataMethodVisitor(mv)
+        return HandlerMethodVisitor(mv)
       }
     })
     input.bytes = cw.toByteArray()
@@ -39,8 +40,7 @@ class LiveDataInterceptor : BytecodeInterceptor {
   }
 }
 
-class LiveDataMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
-
+private class HandlerMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
   override fun visitMethodInsn(
     opcode: Int,
     owner: String?,
@@ -49,32 +49,31 @@ class LiveDataMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
     isInterface: Boolean
   ) {
 
-    if (owner == MUTABLE_LIVE_DATA_CLASS.toInternalName() && opcode == Opcodes.INVOKEVIRTUAL) {
-      val newDescriptor = if (
-        (name == "observe" && descriptor == "(Landroidx/lifecycle/LifecycleOwner;Landroidx/lifecycle/Observer;)V") ||
-        (name == "observeForever" && descriptor == "(Landroidx/lifecycle/Observer;)V")
+    if (owner == HANDLER_CLASS.toInternalName() && opcode == Opcodes.INVOKEVIRTUAL) {
+      if (
+        (name == "post" && descriptor == "(Ljava/lang/Runnable;)Z") ||
+        (name == "postDelayed" && descriptor == "(Ljava/lang/Runnable;J)Z") ||
+        (name == "removeCallbacks" && descriptor == "(Ljava/lang/Runnable;)V") ||
+        (name == "removeCallbacks" && descriptor == "(Ljava/lang/Runnable;Ljava/lang/Object;)V") ||
+        (name == "sendMessage" && descriptor == "(Landroid/os/Message;)Z") ||
+        (name == "removeMessages" && descriptor == "(I)V") ||
+        (name == "removeMessages" && descriptor == "(ILjava/lang/Object;)V") ||
+        (name == "removeCallbacksAndMessages" && descriptor == "(Ljava/lang/Object;)V") ||
+        (name == "hasMessages" && descriptor == "(I)Z") ||
+        (name == "hasMessages" && descriptor == "(ILjava/lang/Object;)Z") ||
+        (name == "hasCallbacks" && descriptor == "(Ljava/lang/Runnable;)Z")
       ) {
-        descriptor.convertToStaticDescriptor("Landroidx/lifecycle/LiveData;")
-      } else if (
-        (name == "postValue" && descriptor == "(Ljava/lang/Object;)V") ||
-        (name == "setValue" && descriptor == "(Ljava/lang/Object;)V")
-      ) {
-        descriptor.convertToStaticDescriptor("Landroidx/lifecycle/MutableLiveData;")
-      } else {
-        null
-      }
-
-      if (!newDescriptor.isNullOrEmpty()) {
         super.visitMethodInsn(
           Opcodes.INVOKESTATIC,
-          LIVE_DATA_DEFENSOR.toInternalName(),
+          HANDLER_DEFENSOR.toInternalName(),
           name,
-          newDescriptor,
+          descriptor.convertToStaticDescriptor("Landroid/os/Handler;"),
           isInterface
         )
         return
       }
     }
+
     super.visitMethodInsn(opcode, owner, name, descriptor, isInterface)
   }
 }

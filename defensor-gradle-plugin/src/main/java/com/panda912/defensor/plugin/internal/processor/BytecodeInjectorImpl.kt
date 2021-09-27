@@ -39,7 +39,8 @@ class BytecodeInjectorImpl : BytecodeInjector {
       LiveDataInterceptor(),
       PaintInterceptor(),
       GridLayoutManagerInterceptor(),
-      ValueAnimatorInterceptor()
+      ValueAnimatorInterceptor(),
+      HandlerInterceptor()
     )
     val input = Input(fullName, className, bytes)
     val chain = BytecodeInterceptorChain(interceptors + FinalInterceptor(), 0, input)

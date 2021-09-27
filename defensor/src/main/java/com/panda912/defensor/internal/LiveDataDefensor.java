@@ -2,6 +2,7 @@ package com.panda912.defensor.internal;
 
 import androidx.lifecycle.LifecycleOwner;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.Observer;
 
 import com.panda912.defensor.CrashDefensor;
@@ -46,6 +47,24 @@ public class LiveDataDefensor {
       String err = "LiveData.observeForever(observer) throw IllegalStateException, due to " + e.getMessage();
       CrashDefensor.onCrash(ErrorCode.IllegalStateException, err, e);
     }
+  }
+
+  public static <T> void postValue(MutableLiveData<T> liveData, T value) {
+    if (liveData == null) {
+      String err = "LiveData.postValue(value) throw NullPointerException, due to LiveData is null.";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, err, new NullPointerException(err));
+      return;
+    }
+    liveData.postValue(value);
+  }
+
+  public static <T> void setValue(MutableLiveData<T> liveData, T value) {
+    if (liveData == null) {
+      String err = "LiveData.setValue(value) throw NullPointerException, due to LiveData is null.";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, err, new NullPointerException(err));
+      return;
+    }
+    liveData.setValue(value);
   }
 
 }
