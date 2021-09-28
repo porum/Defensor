@@ -101,27 +101,35 @@ class ArrayInterceptor : BytecodeInterceptor {
 
       if (!arrayDescriptor.isNullOrEmpty()) {
         if (insnNode.opcode == Opcodes.AALOAD) {
-          val methodInsnNode = MethodInsnNode(
-            Opcodes.INVOKESTATIC,
-            COLLECTION_DEFENSOR.toInternalName(),
-            "get",
-            "([Ljava/lang/Object;I)Ljava/lang/Object;",
-            false
-          )
-          methodNode.instructions.set(insnNode, methodInsnNode)
-          methodNode.instructions.insert(
-            methodInsnNode,
-            TypeInsnNode(Opcodes.CHECKCAST, Type.getType(arrayDescriptor).elementType.internalName)
-          )
+          val type = Type.getType(arrayDescriptor)
+          val dimensions = type.dimensions
+          if (dimensions == 1) {
+            val methodInsnNode = MethodInsnNode(
+              Opcodes.INVOKESTATIC,
+              COLLECTION_DEFENSOR.toInternalName(),
+              "get",
+              "([Ljava/lang/Object;I)Ljava/lang/Object;",
+              false
+            )
+            methodNode.instructions.set(insnNode, methodInsnNode)
+            methodNode.instructions.insert(
+              methodInsnNode,
+              TypeInsnNode(Opcodes.CHECKCAST, type.elementType.internalName)
+            )
+          }
         } else if (insnNode.opcode == Opcodes.BALOAD) {
-          val methodInsnNode = MethodInsnNode(
-            Opcodes.INVOKESTATIC,
-            COLLECTION_DEFENSOR.toInternalName(),
-            "get",
-            "(${arrayDescriptor}I)${Type.getType(arrayDescriptor).elementType.descriptor}",
-            false
-          )
-          methodNode.instructions.set(insnNode, methodInsnNode)
+          val type = Type.getType(arrayDescriptor)
+          val dimensions = type.dimensions
+          if (dimensions == 1) {
+            val methodInsnNode = MethodInsnNode(
+              Opcodes.INVOKESTATIC,
+              COLLECTION_DEFENSOR.toInternalName(),
+              "get",
+              "(${arrayDescriptor}I)${type.elementType.descriptor}",
+              false
+            )
+            methodNode.instructions.set(insnNode, methodInsnNode)
+          }
         }
       }
     }
