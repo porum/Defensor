@@ -107,7 +107,7 @@ class ViewMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
         ) {
           super.visitMethodInsn(
             Opcodes.INVOKESTATIC,
-            VIEW_DEFENSOR.toInternalName(),
+            RECYCLER_VIEW_DEFENSOR_CLASS.toInternalName(),
             name,
             descriptor.convertToStaticDescriptor("Landroidx/recyclerview/widget/RecyclerView\$Recycler;"),
             isInterface
@@ -116,7 +116,7 @@ class ViewMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
         }
       }
 
-      // TextView#setText
+      // TextView
       if (
         (name == "setText" && (descriptor == "(Ljava/lang/CharSequence;)V" || descriptor == "(I)V" || descriptor == "(ILandroid/widget/TextView\$BufferType;)V" || descriptor == "([CII)V")) ||
         (name == "setHint" && (descriptor == "(Ljava/lang/CharSequence;)V" || descriptor == "(I)V"))
@@ -133,6 +133,25 @@ class ViewMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
             return
           }
         } catch (ignored: ClassNotFoundException) {
+        }
+      }
+
+      // BottomSheetBehavior
+      if (owner == BOTTOM_SHEET_BEHAVIOR.toInternalName()) {
+        if (
+          (name == "setPeekHeight" && (descriptor == "(I)V" || descriptor == "(IZ)V")) ||
+          (name == "setState" && descriptor == "(I)V") ||
+          (name == "setHalfExpandedRatio" && descriptor == "(F)V") ||
+          (name == "setExpandedOffset" && descriptor == "(I)V")
+        ) {
+          super.visitMethodInsn(
+            Opcodes.INVOKESTATIC,
+            BOTTOM_SHEET_BEHAVIOR_DEFENSOR.toInternalName(),
+            name,
+            descriptor.convertToStaticDescriptor("Lcom/google/android/material/bottomsheet/BottomSheetBehavior;"),
+            isInterface
+          )
+          return
         }
       }
     }
