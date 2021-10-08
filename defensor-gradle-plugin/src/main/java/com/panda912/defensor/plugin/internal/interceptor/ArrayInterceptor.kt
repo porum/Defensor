@@ -100,10 +100,10 @@ class ArrayInterceptor : BytecodeInterceptor {
       }
 
       if (!arrayDescriptor.isNullOrEmpty()) {
-        if (insnNode.opcode == Opcodes.AALOAD) {
-          val type = Type.getType(arrayDescriptor)
-          val dimensions = type.dimensions
-          if (dimensions == 1) {
+        val type = Type.getType(arrayDescriptor)
+        val dimensions = type.dimensions
+        if (dimensions == 1) {
+          if (insnNode.opcode == Opcodes.AALOAD) {
             val methodInsnNode = MethodInsnNode(
               Opcodes.INVOKESTATIC,
               COLLECTION_DEFENSOR.toInternalName(),
@@ -116,11 +116,7 @@ class ArrayInterceptor : BytecodeInterceptor {
               methodInsnNode,
               TypeInsnNode(Opcodes.CHECKCAST, type.elementType.internalName)
             )
-          }
-        } else if (insnNode.opcode == Opcodes.BALOAD) {
-          val type = Type.getType(arrayDescriptor)
-          val dimensions = type.dimensions
-          if (dimensions == 1) {
+          } else if (insnNode.opcode == Opcodes.BALOAD) {
             val methodInsnNode = MethodInsnNode(
               Opcodes.INVOKESTATIC,
               COLLECTION_DEFENSOR.toInternalName(),
