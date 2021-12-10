@@ -72,7 +72,9 @@ apply plugin: "defensor"
 | :----------------------------: | :--------------------------: |
 | ![before](./assets/before.png) | ![after](./assets/after.png) |
 
+## Wiki
 
+https://github.com/porum/Defensor/wiki
 
 ## License
 
