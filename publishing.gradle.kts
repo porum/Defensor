@@ -74,7 +74,7 @@ afterEvaluate {
                   asNode().appendNode("dependencies").apply {
                     deps.forEach {
                       with(appendNode("dependency")) {
-                        appendNode("group", it.group)
+                        appendNode("groupId", it.group)
                         appendNode("artifactId", it.name)
                         appendNode("version", it.version)
                         appendNode("scope", "compile")
