@@ -1,5 +1,6 @@
 plugins {
   kotlin("jvm")
+  `kotlin-dsl`
   `java-gradle-plugin`
   id("com.gradle.plugin-publish") version "0.16.0"
   id("org.jetbrains.dokka") version "1.5.30"
@@ -12,6 +13,7 @@ dependencies {
   compileOnly("com.android.tools.build:gradle:$AGP_VERSION")
   compileOnly(kotlin("gradle-plugin", KOTLIN_VERSION))
   implementation(gradleApi())
+  implementation("org.ow2.asm:asm:9.2")
   implementation("org.ow2.asm:asm-tree:9.2")
   implementation(project(":defensor-stub-android"))
 }

@@ -1,21 +1,12 @@
 package com.panda912.defensor.sample
 
+import android.app.Activity
 import android.os.Bundle
-import android.util.Log
-import android.view.View
-import android.widget.Toast
-import androidx.appcompat.app.AppCompatActivity
-import com.panda912.defensor.CrashDefensor
-import com.panda912.defensor.ErrorCode
-import com.panda912.defensor.internal.CollectionDefensor
 import com.panda912.defensor.samplelib.ArrayDemo
-import java.lang.IndexOutOfBoundsException
-import java.lang.NullPointerException
-import java.util.*
 
 private const val TAG = "MainActivity"
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : Activity() {
 
 //  private val receiver = Receiver()
 

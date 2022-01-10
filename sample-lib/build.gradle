@@ -4,11 +4,15 @@ plugins {
 }
 
 android {
-
+    compileSdk rootProject.compileVersion
     defaultConfig {
-        versionCode 1
+        minSdk rootProject.minVersion
+        targetSdk rootProject.targetVersion
+    }
 
-        consumerProguardFiles "consumer-rules.pro"
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 
     buildTypes {
@@ -17,15 +21,9 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    kotlinOptions {
-        jvmTarget = '1.8'
-    }
 }
 
 dependencies {
     api "io.github.porum:defensor:$VERSION"
-    implementation 'androidx.core:core-ktx:1.5.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
-    implementation 'com.google.android.material:material:1.3.0'
     implementation "com.google.code.gson:gson:2.8.6"
 }

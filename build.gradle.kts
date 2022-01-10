@@ -1,12 +1,11 @@
 ext {
-  this["compileVersion"] = 29
+  this["compileVersion"] = 31
   this["minVersion"] = 21
-  this["targetVersion"] = 29
+  this["targetVersion"] = 31
   this["buildTools"] = "29.0.1"
 }
 
-val commonConfigure = project.file("common.gradle.kts")
-val publishConfigure = project.file("publishing.gradle.kts")
+val publishConfigure = project.file("maven-publish.gradle.kts")
 
 subprojects {
   repositories {
@@ -22,7 +21,6 @@ subprojects {
     resolutionStrategy.cacheChangingModulesFor(0, TimeUnit.SECONDS)
   }
 
-  apply(from = commonConfigure)
   if (name.startsWith("defensor")) {
     apply(from = publishConfigure)
   }

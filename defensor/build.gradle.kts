@@ -1,17 +1,23 @@
 plugins {
   id("com.android.library")
-  id("org.jetbrains.dokka") version "1.5.0"
+  id("org.jetbrains.dokka") version "1.5.30"
 }
 
 android {
-
+  compileSdk = rootProject.ext["compileVersion"] as Int
   defaultConfig {
-    testInstrumentationRunner("androidx.test.runner.AndroidJUnitRunner")
+    minSdk = rootProject.ext["minVersion"] as Int
+    targetSdk = rootProject.ext["targetVersion"] as Int
+  }
+
+  compileOptions {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
   }
 
   buildTypes {
     val release by getting {
-      minifyEnabled(false)
+
     }
   }
 }
@@ -19,9 +25,6 @@ android {
 
 dependencies {
   compileOnly("androidx.recyclerview:recyclerview:1.2.1")
-  compileOnly("androidx.fragment:fragment:1.3.4")
+  compileOnly("androidx.fragment:fragment:1.3.6")
   compileOnly("com.google.android.material:material:1.4.0")
-  testImplementation("junit:junit:4.+")
-  androidTestImplementation("androidx.test.ext:junit:1.1.2")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
 }
