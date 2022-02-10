@@ -79,7 +79,7 @@ https://github.com/porum/Defensor/wiki
 ## License
 
 ```
-Copyright 2021 porum.
+Copyright (c) 2021-present, porum
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
