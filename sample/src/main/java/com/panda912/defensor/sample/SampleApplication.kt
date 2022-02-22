@@ -13,7 +13,7 @@ class SampleApplication : Application() {
     CrashDefensor.init(
       CrashDefensor.Config()
         .setApplicationId(BuildConfig.APPLICATION_ID)
-        .setEnableThrow(true)
+        .setEnableThrow(false)
     )
     CrashDefensor.setCrashCaughtListener { code, msg, th ->
       Log.i("CrashDefensor", "[$code] $msg $th")
