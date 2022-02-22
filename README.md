@@ -58,7 +58,7 @@ apply plugin: "defensor"
   ```kotlin
   CrashDefensor.init(
     CrashDefensor.Config()
-      .setApplicationId(“applicationId”)
+      .setApplicationId("applicationId")
       .setEnableThrow(true)
   )
   CrashDefensor.setCrashCaughtListener { code, msg, th ->
