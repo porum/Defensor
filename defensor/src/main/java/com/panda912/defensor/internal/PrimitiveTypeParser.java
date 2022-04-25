@@ -1,7 +1,5 @@
 package com.panda912.defensor.internal;
 
-import android.text.TextUtils;
-
 import com.panda912.defensor.CrashDefensor;
 import com.panda912.defensor.ErrorCode;
 
@@ -67,98 +65,84 @@ public class PrimitiveTypeParser {
   }
 
   private static boolean parseBoolean(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Boolean.parseBoolean(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Boolean.parseBoolean(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Boolean.parseBoolean(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Boolean.parseBoolean(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return false;
   }
 
   private static byte parseByte(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Byte.parseByte(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Byte.parseByte(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Byte.parseByte(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Byte.parseByte(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return (byte) 0;
   }
 
   private static short parseShort(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Short.parseShort(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Short.parseShort(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Short.parseShort(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Short.parseShort(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return (short) 0;
   }
 
   private static int parseInt(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Integer.parseInt(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Integer.parseInt(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Integer.parseInt(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Integer.parseInt(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return 0;
   }
 
   private static float parseFloat(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Float.parseFloat(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Float.parseFloat(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Float.parseFloat(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Float.parseFloat(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return (float) 0.0;
   }
 
   private static long parseLong(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Long.parseLong(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Long.parseLong(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Long.parseLong(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Long.parseLong(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return 0;
   }
 
   private static double parseDouble(String str, boolean isThrow) {
-    if (!TextUtils.isEmpty(str)) {
-      try {
-        return Double.parseDouble(str);
-      } catch (NumberFormatException e) {
-        CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Double.parseDouble(\"" + str + "\") throw IllegalArgumentException", e);
-        if (isThrow) {
-          throw e;
-        }
+    try {
+      return Double.parseDouble(str);
+    } catch (NumberFormatException e) {
+      CrashDefensor.onCrash(ErrorCode.IllegalArgumentException, "Double.parseDouble(\"" + str + "\") throw IllegalArgumentException", e);
+      if (isThrow) {
+        throw e;
       }
     }
     return 0.0;
