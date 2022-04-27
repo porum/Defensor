@@ -5,18 +5,11 @@ plugins {
 }
 
 android {
-  val compileVersion: Int by project
-  compileSdk = compileVersion
+  compileSdk = rootProject.ext["compileVersion"] as Int
 
   defaultConfig {
-    val minVersion: Int by project
-    val targetVersion: Int by project
-    minSdk = minVersion
-    targetSdk = targetVersion
-  }
-  compileOptions {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+    minSdk = rootProject.ext["minVersion"] as Int
+    targetSdk = rootProject.ext["targetVersion"] as Int
   }
 
   buildTypes {
@@ -39,11 +32,8 @@ android {
 
 dependencies {
   compileOnly("androidx.recyclerview:recyclerview:1.2.1")
-  compileOnly("androidx.fragment:fragment:1.3.4")
-  compileOnly("com.google.android.material:material:1.4.0")
-  testImplementation("junit:junit:4.+")
-  androidTestImplementation("androidx.test.ext:junit:1.1.2")
-  androidTestImplementation("androidx.test.espresso:espresso-core:3.3.0")
+  compileOnly("androidx.fragment:fragment:1.4.1")
+  compileOnly("com.google.android.material:material:1.5.0")
 }
 
 afterEvaluate {

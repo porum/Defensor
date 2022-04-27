@@ -1,8 +1,8 @@
 ext {
-  this["compileVersion"] = 29
+  this["compileVersion"] = 31
   this["minVersion"] = 21
-  this["targetVersion"] = 29
-  this["buildTools"] = "29.0.1"
+  this["targetVersion"] = 31
+  this["buildTools"] = "32.0.0"
 }
 
 val commonConfigure = project.file("common.gradle.kts")
