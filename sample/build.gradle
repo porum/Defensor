@@ -18,9 +18,13 @@ defensor {
 
 android {
 
+    compileSdk rootProject.compileVersion
+
     defaultConfig {
         applicationId "com.panda912.defensor.sample"
         versionCode 1
+        minSdk = rootProject.minVersion
+        targetSdk = rootProject.targetVersion
     }
 
     buildTypes {
@@ -32,6 +36,11 @@ android {
 
     kotlinOptions {
         jvmTarget = '1.8'
+    }
+
+    compileOptions {
+        sourceCompatibility = JavaVersion.VERSION_1_8
+        targetCompatibility = JavaVersion.VERSION_1_8
     }
 }
 

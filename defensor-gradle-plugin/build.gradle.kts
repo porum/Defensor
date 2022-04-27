@@ -1,8 +1,13 @@
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+
 plugins {
   kotlin("jvm")
   `java-gradle-plugin`
   id("com.gradle.plugin-publish") version "0.16.0"
-  id("org.jetbrains.dokka") version "1.5.30"
+  id("org.jetbrains.dokka")
+  `kotlin-dsl`
+  `maven-publish`
+  signing
 }
 
 val AGP_VERSION: String by project
@@ -40,3 +45,53 @@ pluginBundle {
   }
 }
 
+// https://kotlin.github.io/dokka/1.6.0/user_guide/gradle/usage/#configuration-options
+tasks.dokkaJavadoc.configure {
+  outputDirectory.set(buildDir.resolve("dokka"))
+  offlineMode.set(true)
+  dokkaSourceSets {
+    configureEach {
+      // Do not create index pages for empty packages
+      skipEmptyPackages.set(true)
+      // Disable linking to online kotlin-stdlib documentation
+      noStdlibLink.set(false)
+      // Disable linking to online Android documentation (only applicable for Android projects)
+      noAndroidSdkLink.set(false)
+
+      // Suppress a package
+      perPackageOption {
+        // will match all .internal packages and sub-packages
+        matchingRegex.set(".*\\.internal.*")
+        suppress.set(true)
+      }
+    }
+  }
+}
+
+val sourceJar by tasks.registering(Jar::class) {
+  from(sourceSets.main.get().allSource)
+  archiveClassifier.set("sources")
+}
+
+val dokkaJavadocJar by tasks.registering(Jar::class) {
+  dependsOn(tasks.dokkaJavadoc)
+  from(tasks.dokkaJavadoc.get().outputDirectory)
+  archiveClassifier.set("javadoc")
+}
+
+publishing {
+  publications {
+    create<MavenPublication>("DefensorGradlePlugin") {
+      artifact(sourceJar)
+      artifact(dokkaJavadocJar)
+      pom {
+        name.set("defensor-gradle-plugin")
+        description.set("defensor-gradle-plugin")
+      }
+    }
+  }
+}
+
+signing {
+  publishing.publications["DefensorGradlePlugin"]
+}
