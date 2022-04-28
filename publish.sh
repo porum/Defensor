@@ -1,0 +1,1 @@
+./gradlew clean :defensor:publishDefensorPublicationToMavenRepository :defensor-stub-android:publishDefensorStubAndroidPublicationToMavenRepository :defensor-gradle-plugin:publishDefensorGradlePluginPublicationToMavenRepository

@@ -31,6 +31,7 @@ publishing {
       from(components["java"])
       artifact(sourceJar)
       artifact(javadocJar)
+
       pom {
         name.set("defensor-stub-android")
         description.set("This library provide android api for defensor-gradle-plugin")
@@ -40,5 +41,5 @@ publishing {
 }
 
 signing {
-  publishing.publications["DefensorStubAndroid"]
+  sign(extensions.getByType<PublishingExtension>().publications)
 }

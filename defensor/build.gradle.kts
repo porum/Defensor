@@ -81,6 +81,6 @@ afterEvaluate {
   }
 
   signing {
-    publishing.publications["Defensor"]
+    sign(extensions.getByType<PublishingExtension>().publications)
   }
 }

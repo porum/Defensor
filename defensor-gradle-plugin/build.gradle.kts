@@ -68,22 +68,24 @@ tasks.dokkaJavadoc.configure {
   }
 }
 
-val sourceJar by tasks.registering(Jar::class) {
-  from(sourceSets.main.get().allSource)
-  archiveClassifier.set("sources")
-}
-
 val dokkaJavadocJar by tasks.registering(Jar::class) {
   dependsOn(tasks.dokkaJavadoc)
   from(tasks.dokkaJavadoc.get().outputDirectory)
   archiveClassifier.set("javadoc")
 }
 
+val sourceJar by tasks.registering(Jar::class) {
+  from(sourceSets.main.get().allSource)
+  archiveClassifier.set("sources")
+}
+
 publishing {
   publications {
     create<MavenPublication>("DefensorGradlePlugin") {
+      from(components["java"])
       artifact(sourceJar)
       artifact(dokkaJavadocJar)
+
       pom {
         name.set("defensor-gradle-plugin")
         description.set("defensor-gradle-plugin")
@@ -93,5 +95,5 @@ publishing {
 }
 
 signing {
-  publishing.publications["DefensorGradlePlugin"]
+  sign(extensions.getByType<PublishingExtension>().publications)
 }
