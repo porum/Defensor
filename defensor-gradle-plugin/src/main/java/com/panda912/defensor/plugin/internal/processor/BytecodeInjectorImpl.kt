@@ -38,6 +38,7 @@ class BytecodeInjectorImpl : BytecodeInjector {
       SafeDialogInterceptor(),
       StringInterceptor(),
       ThrowableInterceptor(),
+      ToastInterceptor(),
       UnboxingInterceptor(),
       UriInterceptor(),
       ValueAnimatorInterceptor(),

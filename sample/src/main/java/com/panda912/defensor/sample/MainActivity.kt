@@ -42,6 +42,8 @@ class MainActivity : AppCompatActivity() {
       )
     )
 
+    Toast.makeText(this.applicationContext, "Hello defensor!", Toast.LENGTH_SHORT).show()
+
 //    val context: Context = this
 //    context.bindService(Intent(), object : ServiceConnection {
 //      override fun onServiceConnected(name: ComponentName?, service: IBinder?) {

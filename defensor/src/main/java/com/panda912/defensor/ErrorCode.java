@@ -21,4 +21,5 @@ public interface ErrorCode {
   int DialogException = 114;
   int URLDecoderException = 115;
   int IllegalStateException = 116;
+  int ToastException = 117;
 }

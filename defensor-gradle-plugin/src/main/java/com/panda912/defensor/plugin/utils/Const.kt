@@ -1,7 +1,6 @@
 package com.panda912.defensor.plugin.utils
 
 import org.objectweb.asm.Type
-import java.io.File
 
 /**
  * Created by panda on 2021/8/13 17:25
@@ -85,6 +84,7 @@ const val SPANNABLE_STRING_BUILDER_DEFENSOR = "com.panda912.defensor.internal.Sp
 const val STRING_DEFENSOR = "com.panda912.defensor.internal.StringDefensor"
 const val TEXTVIEW_DEFENSOR = "com.panda912.defensor.internal.TextViewDefensor"
 const val THROWABLE_DEFENSOR = "com.panda912.defensor.internal.ThrowableDefensor"
+const val TOAST_COMPAT = "com.panda912.defensor.internal.ToastCompat"
 const val UNBOXING_DEFENSOR = "com.panda912.defensor.internal.UnboxingDefensor"
 const val URI_DEFENSOR = "com.panda912.defensor.internal.UriDefensor"
 const val VALUE_ANIMATOR_DEFENSOR = "com.panda912.defensor.internal.ValueAnimatorDefensor"
