@@ -1,4 +1,7 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+import com.android.tools.analytics.Environment
+import com.panda912.buildsrc.CommonConfig
+import org.gradle.jvm.tasks.Jar
+import java.util.*
 
 plugins {
   kotlin("jvm")
@@ -10,15 +13,43 @@ plugins {
   signing
 }
 
-val AGP_VERSION: String by project
-val KOTLIN_VERSION: String by project
+task("compileAndroidStubLibTask", JavaCompile::class) {
+  source(File("src/stub/java"))
+  classpath = project.files(getAndroidJar(CommonConfig.compileSdk))
+  destinationDirectory.set(File(project.buildDir, "/defensor/tmp/androidStubLib"))
+}
+task("generateAndroidStubJar", Jar::class) {
+  archiveBaseName.set("defensor-android-stub")
+  archiveVersion.set(CommonConfig.DEFENSOR_VERSION)
+  from(tasks.getByName("compileAndroidStubLibTask"))
+  include("**/*.class")
+}
+
+fun getAndroidJar(compileSdkVersion: Int): String {
+  var androidSdkDir = Environment.instance.getVariable(Environment.EnvironmentVariable.ANDROID_PREFS_ROOT)
+  if (androidSdkDir.isNullOrEmpty()) {
+    val localProperties = rootProject.file("local.properties")
+    if (localProperties.exists()) {
+      val properties = Properties()
+      properties.load(localProperties.inputStream())
+      androidSdkDir = properties.getProperty("sdk.dir")
+    }
+  }
+  if (androidSdkDir.isNullOrEmpty()) {
+    throw StopExecutionException("please declares your 'sdk.dir' to file 'local.properties'")
+  }
+  val path = "platforms${File.separator}android-${compileSdkVersion}${File.separator}android.jar"
+  return File(androidSdkDir.toString(), path).absolutePath
+}
 
 dependencies {
-  compileOnly("com.android.tools.build:gradle:$AGP_VERSION")
-  compileOnly(kotlin("gradle-plugin", KOTLIN_VERSION))
+  compileOnly("com.android.tools.build:gradle:${CommonConfig.AGP_VERSION}")
+  compileOnly(kotlin("gradle-plugin", CommonConfig.KOTLIN_VERSION))
   implementation(gradleApi())
   implementation("org.ow2.asm:asm-tree:9.2")
-  implementation(project(":defensor-stub-android"))
+
+  val stub = tasks.getByName("generateAndroidStubJar").outputs.files
+  implementation(files(stub.files))
 }
 
 // https://docs.gradle.org/current/userguide/java_gradle_plugin.html

@@ -1,6 +1,5 @@
 rootProject.name = "Defensor"
 include ':defensor'
 include ':defensor-gradle-plugin'
-include ':defensor-stub-android'
 include ':sample'
 include ':sample-lib'
