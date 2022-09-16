@@ -65,7 +65,7 @@ subprojects {
           developers {
             developer {
               id.set("porum")
-              name.set("sunguo.sun")
+              name.set("guobao.sun")
               email.set("sunguobao12@gmail.com")
             }
           }
