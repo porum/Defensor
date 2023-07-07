@@ -14,7 +14,7 @@ plugins {
 }
 
 task("compileAndroidStubLibTask", JavaCompile::class) {
-  source(File("src/stub/java"))
+  source(file("src/stub/java"))
   classpath = project.files(getAndroidJar(CommonConfig.compileSdk))
   destinationDirectory.set(File(project.buildDir, "/defensor/tmp/androidStubLib"))
 }
@@ -49,7 +49,7 @@ dependencies {
   implementation("org.ow2.asm:asm-tree:9.2")
 
   val stub = tasks.getByName("generateAndroidStubJar").outputs.files
-  implementation(files(stub.files))
+  implementation(stub)
 }
 
 // https://docs.gradle.org/current/userguide/java_gradle_plugin.html
