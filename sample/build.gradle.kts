@@ -12,7 +12,6 @@ defensor {
     "kotlin",
     "kotlinx",
     "com.google",
-    "com.panda912.defensor.samplelib.Lib"
   )
 }
 
