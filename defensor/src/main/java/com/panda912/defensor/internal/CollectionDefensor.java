@@ -118,19 +118,6 @@ public class CollectionDefensor {
     return 0;
   }
 
-  public static <T> T get(T[] arr, int i) {
-    if (arr != null && i >= 0 && i < arr.length) {
-      return arr[i];
-    }
-    if (arr == null) {
-      String error = "Object[i] throw NullPointerException";
-      CrashDefensor.onCrash(ErrorCode.NullPointerException, error, new NullPointerException(error));
-      return null;
-    }
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, "Object[i] throw IndexOutOfBoundsException", new IndexOutOfBoundsException("Object[" + i + "] length " + arr.length + " throw IndexOutOfBoundsException"));
-    return null;
-  }
-
   ////////////////////////////////////////// list //////////////////////////////////////////
 
   public static <E> E get(List<E> list, int index) {

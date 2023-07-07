@@ -33,8 +33,7 @@ class ArrayInterceptor : BytecodeInterceptor {
             Opcodes.LALOAD,
             Opcodes.FALOAD,
             Opcodes.DALOAD -> handlePrimitiveType(methodNode, insnNode)
-            Opcodes.AALOAD,
-            Opcodes.BALOAD -> handleByteBooleanReferenceType(methodNode, insnNode)
+            Opcodes.BALOAD -> handleByteBooleanType(methodNode, insnNode)
           }
         }
       }
@@ -67,7 +66,7 @@ class ArrayInterceptor : BytecodeInterceptor {
     methodNode.instructions.set(insnNode, methodInsnNode)
   }
 
-  private fun handleByteBooleanReferenceType(methodNode: MethodNode, insnNode: AbstractInsnNode) {
+  private fun handleByteBooleanType(methodNode: MethodNode, insnNode: AbstractInsnNode) {
     val prev = insnNode.previous
     if (
       prev?.opcode == Opcodes.ILOAD ||
@@ -103,29 +102,14 @@ class ArrayInterceptor : BytecodeInterceptor {
         val type = Type.getType(arrayDescriptor)
         val dimensions = type.dimensions
         if (dimensions == 1) {
-          if (insnNode.opcode == Opcodes.AALOAD) {
-            val methodInsnNode = MethodInsnNode(
-              Opcodes.INVOKESTATIC,
-              COLLECTION_DEFENSOR.toInternalName(),
-              "get",
-              "([Ljava/lang/Object;I)Ljava/lang/Object;",
-              false
-            )
-            methodNode.instructions.set(insnNode, methodInsnNode)
-            methodNode.instructions.insert(
-              methodInsnNode,
-              TypeInsnNode(Opcodes.CHECKCAST, type.elementType.internalName)
-            )
-          } else if (insnNode.opcode == Opcodes.BALOAD) {
-            val methodInsnNode = MethodInsnNode(
-              Opcodes.INVOKESTATIC,
-              COLLECTION_DEFENSOR.toInternalName(),
-              "get",
-              "(${arrayDescriptor}I)${type.elementType.descriptor}",
-              false
-            )
-            methodNode.instructions.set(insnNode, methodInsnNode)
-          }
+          val methodInsnNode = MethodInsnNode(
+            Opcodes.INVOKESTATIC,
+            COLLECTION_DEFENSOR.toInternalName(),
+            "get",
+            "(${arrayDescriptor}I)${type.elementType.descriptor}",
+            false
+          )
+          methodNode.instructions.set(insnNode, methodInsnNode)
         }
       }
     }
