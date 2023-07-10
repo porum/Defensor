@@ -34,8 +34,7 @@ class PrimitiveInterceptor : BytecodeInterceptor {
             (methodInsn.owner == INTEGER_CLASS.toInternalName() && methodInsn.name == "parseInt" && methodInsn.desc == "(Ljava/lang/String;)I") ||
             (methodInsn.owner == LONG_CLASS.toInternalName() && methodInsn.name == "parseLong" && methodInsn.desc == "(Ljava/lang/String;)J") ||
             (methodInsn.owner == FLOAT_CLASS.toInternalName() && methodInsn.name == "parseFloat") ||
-            (methodInsn.owner == DOUBLE_CLASS.toInternalName() && methodInsn.name == "parseDouble") ||
-            (methodInsn.owner == BOOLEAN_CLASS.toInternalName() && methodInsn.name == "parseBoolean")
+            (methodInsn.owner == DOUBLE_CLASS.toInternalName() && methodInsn.name == "parseDouble")
           ) {
             val index = methodNode.instructions.indexOf(insnNode)
             val hasCatched = methodNode.tryCatchBlocks.any {
