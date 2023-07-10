@@ -6,7 +6,7 @@ package com.panda912.buildsrc
 object CommonConfig {
   const val AGP_VERSION = "7.1.3"
   const val KOTLIN_VERSION = "1.6.21"
-  const val DEFENSOR_VERSION = "1.3.5"
+  const val DEFENSOR_VERSION = "1.3.6"
   const val GROUP = "io.github.porum"
   const val compileSdk = 32
   const val minSdk = 21
