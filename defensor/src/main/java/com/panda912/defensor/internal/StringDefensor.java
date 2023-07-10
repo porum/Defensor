@@ -1,7 +1,5 @@
 package com.panda912.defensor.internal;
 
-import android.text.TextUtils;
-
 import com.panda912.defensor.CrashDefensor;
 import com.panda912.defensor.ErrorCode;
 
@@ -40,26 +38,22 @@ public class StringDefensor {
   }
 
   public static CharSequence subSequence(CharSequence charSequence, int start, int end) {
-    if (TextUtils.isEmpty(charSequence)) {
-      onSubSequenceCrash(charSequence, start, end);
-      return "";
-    } else if (start < 0) {
-      onSubSequenceCrash(charSequence, start, end);
-      return charSequence;
-    } else if (end > charSequence.length()) {
-      onSubSequenceCrash(charSequence, start, end);
-      return charSequence;
-    } else if (end - start >= 0) {
+    try {
       return charSequence.subSequence(start, end);
-    } else {
-      onSubSequenceCrash(charSequence, start, end);
-      return charSequence;
-    }
-  }
+    } catch (StringIndexOutOfBoundsException e) {
+      String error = "CharSequence.subSequence(int start, int end) throw IndexOutOfBoundsException";
+      CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, error, new IndexOutOfBoundsException("\"" + charSequence + "\".subSequence(" + start + "," + end + ") throw IndexOutOfBoundsException"));
 
-  private static void onSubSequenceCrash(CharSequence charSequence, int start, int end) {
-    String error = "CharSequence.subSequence() throw IndexOutOfBoundsException";
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, error, new IndexOutOfBoundsException("CharSequence.subSequence(\"" + ((Object) charSequence) + "\"," + start + "," + end + ") throw IndexOutOfBoundsException"));
+      start = Math.max(start, 0);
+      end = Math.min(end, charSequence.length());
+      if (end - start >= 0) {
+        return charSequence.subSequence(start, end);
+      }
+    } catch (NullPointerException e) {
+      String msg = "CharSequence.subSequence(int start, int end) throw NullPointerException";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, msg, new NullPointerException("\"" + charSequence + "\".subSequence(" + start + "," + end + ") throw NullPointerException"));
+    }
+    return "";
   }
 
   public static String toString(CharSequence charSequence) {
@@ -100,35 +94,41 @@ public class StringDefensor {
   ////////////////////////////////// String //////////////////////////////////
 
   public static String substring(String str, int beginIndex) {
-    if (!TextUtils.isEmpty(str) && beginIndex >= 0 && beginIndex <= str.length()) {
+    try {
       return str.substring(beginIndex);
+    } catch (StringIndexOutOfBoundsException e) {
+      String msg = "String.substring(int beginIndex) throw IndexOutOfBoundsException";
+      CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, msg, new IndexOutOfBoundsException("\"" + str + "\".substring(" + beginIndex + ") throw IndexOutOfBoundsException"));
+
+      beginIndex = Math.max(beginIndex, 0);
+      int endIndex = str.length();
+      if (endIndex - beginIndex >= 0) {
+        return str.substring(beginIndex, endIndex);
+      }
+    } catch (NullPointerException e) {
+      String msg = "String.substring(int beginIndex) throw NullPointerException";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, msg, new NullPointerException("\"" + str + "\".substring(" + beginIndex + ") throw NullPointerException"));
     }
-    String msg = "String.substring(int beginIndex) throw IndexOutOfBoundsException";
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, msg, new IndexOutOfBoundsException("\"" + str + "\".substring(" + beginIndex + ") throw IndexOutOfBoundsException"));
-    return str;
+    return "";
   }
 
   public static String substring(String str, int beginIndex, int endIndex) {
-    if (TextUtils.isEmpty(str)) {
-      onSubstringCrash(str, beginIndex, endIndex);
-      return "";
-    } else if (beginIndex < 0) {
-      onSubstringCrash(str, beginIndex, endIndex);
-      return str;
-    } else if (endIndex > str.length()) {
-      onSubstringCrash(str, beginIndex, endIndex);
-      return str;
-    } else if (endIndex - beginIndex >= 0) {
+    try {
       return str.substring(beginIndex, endIndex);
-    } else {
-      onSubstringCrash(str, beginIndex, endIndex);
-      return str;
-    }
-  }
+    } catch (StringIndexOutOfBoundsException e) {
+      String msg = "String.substring(int beginIndex, int endIndex) throw IndexOutOfBoundsException";
+      CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, msg, new IndexOutOfBoundsException("\"" + str + "\".substring(" + beginIndex + "," + endIndex + ") throw IndexOutOfBoundsException"));
 
-  private static void onSubstringCrash(String str, int beginIndex, int endIndex) {
-    String msg = "String.substring(int beginIndex, int endIndex) throw IndexOutOfBoundsException";
-    CrashDefensor.onCrash(ErrorCode.IndexOutOfBoundsException, msg, new IndexOutOfBoundsException("\"" + str + "\".substring(" + beginIndex + "," + endIndex + ") throw IndexOutOfBoundsException"));
+      beginIndex = Math.max(beginIndex, 0);
+      endIndex = Math.min(endIndex, str.length());
+      if (endIndex - beginIndex >= 0) {
+        return str.substring(beginIndex, endIndex);
+      }
+    } catch (NullPointerException e) {
+      String msg = "String.substring(int beginIndex, int endIndex) throw NullPointerException";
+      CrashDefensor.onCrash(ErrorCode.NullPointerException, msg, new NullPointerException("\"" + str + "\".substring(" + beginIndex + "," + endIndex + ") throw NullPointerException"));
+    }
+    return "";
   }
 
   public static String trim(String str) {

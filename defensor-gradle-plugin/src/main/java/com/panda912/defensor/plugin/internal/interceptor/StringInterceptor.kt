@@ -63,6 +63,7 @@ class StringMethodVisitor(mv: MethodVisitor) : BaseMethodVisitor(mv) {
       if (opcode == Opcodes.INVOKEVIRTUAL) {
         if (
           (name == "substring" && descriptor == "(I)Ljava/lang/String;") ||
+          (name == "substring" && descriptor == "(II)Ljava/lang/String;") ||
           name == "trim" ||
           name == "length" ||
           (name == "lastIndexOf" && (descriptor == "(I)I" || descriptor == "(Ljava/lang/String;)I")) ||
