@@ -6,65 +6,60 @@
 
 Defensor is a gradle-plugin that can reduce Android App crashes.
 
-## Usage
+## Adding dependencies
 
-To add a dependency on `defensor`, you must add the Maven Central repository to your project.
-
-Add the dependencies for the artifacts you need in the `build.gradle` file for your app or module:
-
-```groovy
-dependencies {
-    implementation "io.github.porum:defensor:$version"
-}
-```
-
-To add `defensor-gradle-plugin` to your project, include the following `classpath` in your top level `build.gradle` file:
+First, add `defensor-gradle-plugin` to your project, include the following `classpath` in your top level `build.gradle` file:
 
 ```groovy
 buildscript {
     repositories {
+        // ...
         mavenCentral()
     }
     dependencies {
+        // ...
         classpath "io.github.porum:defensor-gradle-plugin:$version"
     }
 }
 ```
 
-To generate Java language code suitable for Java or mixed Java and Kotlin modules, add this line to **your app or module's** `build.gradle` file:
+Then, apply the Gradle plugin and add these dependencies in your **app or module's** `build.gradle` file:
 
 ```groovy
+// ...
 apply plugin: "defensor"
+
+dependencies {
+    // ...
+    implementation "io.github.porum:defensor:$version"
+}
 ```
 
-## Advance Usage
+## Configuration
 
-- #### support `excludes` packages/classes
+Defensor plugin can be configured using `defensor` extension object:
 
-  ```groovy
-  defensor {
-      excludes = [
-              "android",
-              "androidx",
-              "kotlin",
-              "kotlinx",
-              "yourpackage.YourClass"
-      ]
-  }
-  ```
+```groovy
+defensor {
+    excludes = [
+        // exclude specified packages or classes
+    ]
+}
+```
 
-- #### support `setCrashCaughtListener`
+## Usage
 
-  ```kotlin
-  CrashDefensor.init(
-    CrashDefensor.Config()
-      .setApplicationId("applicationId")
-      .setEnableThrow(true)
-  )
-  CrashDefensor.setCrashCaughtListener { code, msg, th ->
-    Log.i("CrashDefensor", "[$code] $msg $th")
-  }
-  ```
+```kotlin
+CrashDefensor.init(
+  CrashDefensor.Config()
+    .setApplicationId("applicationId")
+    .setEnableThrow(true)
+)
+
+CrashDefensor.setCrashCaughtListener { code, msg, th ->
+  Log.i("CrashDefensor", "[$code] $msg $th")
+}
+```
 
 ## Decompile
 
