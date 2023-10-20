@@ -4,7 +4,7 @@
 [![defensor](https://img.shields.io/badge/defensor-1.3.6-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor/1.3.6/aar)
 [![defensor-gradle-plugin](https://img.shields.io/badge/defensor--gradle--plugin-1.3.6-brightgreen.svg)](https://search.maven.org/artifact/io.github.porum/defensor-gradle-plugin/1.3.6/jar)
 
-Defensor is a gradle-plugin that can reduce Android App crashes.
+Defensor is a gradle plugin for Android that reduces the crash of Application.
 
 ## Adding dependencies
 
